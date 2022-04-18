@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Login extends Component {
   render() {
     return (
-      <div>
+      <div data-testid="page-login">
         <h1>HOME PAGE</h1>
       </div>
     );
