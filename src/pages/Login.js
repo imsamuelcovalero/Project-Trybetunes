@@ -53,8 +53,8 @@ class Login extends Component {
 
   onClickEnter = async () => {
     const { history, userName, checkLoading } = this.props;
-    console.log('history', history);
-    console.log('userName', userName);
+    // console.log('history', history);
+    // console.log('userName', userName);
     checkLoading(true);
     await createUser({ name: userName });
     history.push('/search');

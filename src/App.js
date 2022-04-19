@@ -1,5 +1,4 @@
 import React from 'react';
-// import Header from './components/Header';
 // import Sidebar from './components/Sidebar';
 import Content from './components/Content';
 
@@ -46,12 +45,9 @@ class App extends React.Component {
   }
 
   render() {
-    const {
-      userName, isSaveButtonDisabled, loading,
-    } = this.state;
+    const { userName, isSaveButtonDisabled, loading } = this.state;
     return (
       <section>
-        {/* <Header /> */}
         {/* <Sidebar /> */}
         <Content
           userName={ userName }
