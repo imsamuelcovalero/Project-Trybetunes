@@ -14,7 +14,6 @@ class Search extends Component {
       isSaveButtonDisabled: true,
       loading: false,
       albuns: [],
-      // nenhumAlbum: true,
     };
   }
 
@@ -30,7 +29,7 @@ class Search extends Component {
       // atribui valores a constantes para a realização das verificações
       const MINLETTERS = 2;
 
-      console.log('artistName.length', artistName.length);
+      // console.log('artistName.length', artistName.length);
       if (artistName.length >= MINLETTERS) {
         this.setState({
           artistname2: artistName,
@@ -46,7 +45,7 @@ class Search extends Component {
 
   onClickSearch = async ({ target }) => {
     const { artistName } = this.state;
-    console.log('artistName', artistName);
+    // console.log('artistName', artistName);
     this.setState({
       loading: true,
     });
