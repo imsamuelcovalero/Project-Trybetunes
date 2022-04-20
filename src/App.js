@@ -25,7 +25,7 @@ class App extends React.Component {
       // atribui valores a constantes para a realização das verificações
       const MINLETTERS = 3;
 
-      console.log('userName.length', userName.length);
+      // console.log('userName.length', userName.length);
       if (userName.length >= MINLETTERS) {
         this.setState({
           isSaveButtonDisabled: false,

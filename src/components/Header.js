@@ -26,7 +26,7 @@ class Header extends Component {
       loading: true,
     });
     const resposta = await getUser();
-    console.log(resposta);
+    // console.log(resposta);
     this.setState({
       userName: resposta.name,
       loading: false,
@@ -36,7 +36,7 @@ class Header extends Component {
   render() {
     // const { loading } = this.props;
     const { userName, loading } = this.state;
-    console.log('userName', userName);
+    // console.log('userName', userName);
     return (
       <header data-testid="header-component">
         {

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
+import AlbumCard from '../components/AlbumCard';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 class Search extends Component {
   constructor() {
@@ -7,6 +11,8 @@ class Search extends Component {
     this.state = {
       artistName: '',
       isSaveButtonDisabled: true,
+      loading: false,
+      albuns: [],
     };
   }
 
@@ -35,10 +41,32 @@ class Search extends Component {
     });
   }
 
+  onClickSearch = async ({ target }) => {
+    const { artistName } = this.state;
+    console.log('Entrou');
+    console.log('artistName', artistName);
+    this.setState({
+      loading: true,
+    });
+    const resposta = await searchAlbumsAPI(artistName);
+    console.log(resposta);
+    this.setState({
+      albuns: resposta,
+      loading: false,
+    });
+    target.value = '';
+  }
+
   render() {
-    const { artistName, isSaveButtonDisabled } = this.state;
+    const { artistName, isSaveButtonDisabled, loading, albuns } = this.state;
+    // const { collectionId } = albuns;
+    console.log('collectionId', albuns.artistName);
     return (
       <div data-testid="page-search">
+        {
+          loading
+            && <Loading />
+        }
         <Header />
         <h1>SEARCH</h1>
         <form>
@@ -55,10 +83,34 @@ class Search extends Component {
             type="button"
             data-testid="search-artist-button"
             disabled={ isSaveButtonDisabled }
-            // onClick={ this.onClickEnter }
+            onClick={ this.onClickSearch }
           >
             Pesquisar
           </button>
+          <section>
+            {albuns.map((album, index) => (
+              <section key={ index }>
+                <summary>
+                  Resultado de álbuns de :
+                  {album.artistName}
+                </summary>
+                <section>
+                  <Link
+                    to={ `/album/${album.collectionId}` }
+                    data-testid={ `link-to-album-${album.collectionId}` }
+                  >
+                    <div className="album-card">
+                      <AlbumCard
+                        artwork={ album.artworkUrl100 }
+                        collectionName={ album.collectionName }
+                        artistName={ album.artistName }
+                      />
+                    </div>
+                  </Link>
+                </section>
+              </section>
+            ))}
+          </section>
         </form>
       </div>
     );
