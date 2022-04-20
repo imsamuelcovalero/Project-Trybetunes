@@ -10,6 +10,7 @@ class Search extends Component {
     super();
     this.state = {
       artistName: '',
+      artistname2: '',
       isSaveButtonDisabled: true,
       loading: false,
       albuns: [],
@@ -32,6 +33,7 @@ class Search extends Component {
       console.log('artistName.length', artistName.length);
       if (artistName.length >= MINLETTERS) {
         this.setState({
+          artistname2: artistName,
           isSaveButtonDisabled: false,
         });
       } else {
@@ -44,31 +46,22 @@ class Search extends Component {
 
   onClickSearch = async ({ target }) => {
     const { artistName } = this.state;
-    console.log('Entrou');
     console.log('artistName', artistName);
     this.setState({
       loading: true,
     });
     const resposta = await searchAlbumsAPI(artistName);
-    console.log(resposta);
+    // console.log(resposta);
     this.setState({
       albuns: resposta,
       loading: false,
+      artistName: '',
     });
-    // if (albuns === []) {
-    //   this.setState({
-    //     nenhumAlbum: true,
-    //   });
-    // } else {
-    //   this.setState({
-    //     nenhumAlbum: false,
-    //   });
-    // }
     target.value = '';
   }
 
   render() {
-    const { artistName, isSaveButtonDisabled, loading, albuns } = this.state;
+    const { artistName, isSaveButtonDisabled, loading, albuns, artistname2 } = this.state;
     // const { collectionId } = albuns;
     // console.log('collectionId', albuns.artistName);
     return (
@@ -101,12 +94,11 @@ class Search extends Component {
             ? (<p>Nenhum álbum foi encontrado</p>)
             : (
               <section>
+                <p>
+                  {`Resultado de álbuns de: ${artistname2}`}
+                </p>
                 {albuns.map((album, index) => (
                   <section key={ index }>
-                    <summary>
-                      Resultado de álbuns de :
-                      {album.artistName}
-                    </summary>
                     <section>
                       <Link
                         to={ `/album/${album.collectionId}` }
