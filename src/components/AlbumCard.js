@@ -14,7 +14,7 @@ class AlbumCard extends Component {
 
     return (
       // cria uma sessão para os álbums
-      <section className="albumCard">
+      <section className="album-card">
         {/* Exibe o AlbumCard */}
         <img src={ artwork } alt={ collectionName } />
         <h4>{ collectionName }</h4>

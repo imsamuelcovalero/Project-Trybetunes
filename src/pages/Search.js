@@ -13,6 +13,7 @@ class Search extends Component {
       isSaveButtonDisabled: true,
       loading: false,
       albuns: [],
+      // nenhumAlbum: true,
     };
   }
 
@@ -54,13 +55,22 @@ class Search extends Component {
       albuns: resposta,
       loading: false,
     });
+    // if (albuns === []) {
+    //   this.setState({
+    //     nenhumAlbum: true,
+    //   });
+    // } else {
+    //   this.setState({
+    //     nenhumAlbum: false,
+    //   });
+    // }
     target.value = '';
   }
 
   render() {
     const { artistName, isSaveButtonDisabled, loading, albuns } = this.state;
     // const { collectionId } = albuns;
-    console.log('collectionId', albuns.artistName);
+    // console.log('collectionId', albuns.artistName);
     return (
       <div data-testid="page-search">
         {
@@ -87,30 +97,33 @@ class Search extends Component {
           >
             Pesquisar
           </button>
-          <section>
-            {albuns.map((album, index) => (
-              <section key={ index }>
-                <summary>
-                  Resultado de álbuns de :
-                  {album.artistName}
-                </summary>
-                <section>
-                  <Link
-                    to={ `/album/${album.collectionId}` }
-                    data-testid={ `link-to-album-${album.collectionId}` }
-                  >
-                    <div className="album-card">
-                      <AlbumCard
-                        artwork={ album.artworkUrl100 }
-                        collectionName={ album.collectionName }
-                        artistName={ album.artistName }
-                      />
-                    </div>
-                  </Link>
-                </section>
-              </section>
-            ))}
-          </section>
+          { albuns.length === 0
+            ? (<p>Nenhum álbum foi encontrado</p>)
+            : (
+              <section>
+                {albuns.map((album, index) => (
+                  <section key={ index }>
+                    <summary>
+                      Resultado de álbuns de :
+                      {album.artistName}
+                    </summary>
+                    <section>
+                      <Link
+                        to={ `/album/${album.collectionId}` }
+                        data-testid={ `link-to-album-${album.collectionId}` }
+                      >
+                        <div className="album-card">
+                          <AlbumCard
+                            artwork={ album.artworkUrl100 }
+                            collectionName={ album.collectionName }
+                            artistName={ album.artistName }
+                          />
+                        </div>
+                      </Link>
+                    </section>
+                  </section>
+                ))}
+              </section>)}
         </form>
       </div>
     );
