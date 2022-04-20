@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   constructor() {
@@ -13,11 +14,20 @@ class Album extends Component {
       artistName: '',
       loading: false,
       musics: [],
+      musicasFavoritas: '',
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getMusicas();
+    this.setState({
+      loading: true,
+    });
+    const musicas = await getFavoriteSongs();
+    this.setState({
+      loading: false,
+      musicasFavoritas: musicas,
+    });
   }
 
   getMusicas = async () => {
@@ -29,9 +39,9 @@ class Album extends Component {
       loading: true,
     });
     const resposta = await getMusics(id);
-    console.log('resposta', resposta);
+    // console.log('resposta', resposta);
     const respostaFiltrada = resposta.filter((elemento, index) => index !== 0);
-    console.log('resposta2', respostaFiltrada);
+    // console.log('resposta2', respostaFiltrada);
     this.setState({
       musics: respostaFiltrada,
       loading: false,
@@ -40,9 +50,15 @@ class Album extends Component {
     });
   }
 
+  checkLoading = (boolean) => {
+    this.setState({
+      loading: boolean,
+    });
+  }
+
   render() {
-    const { musics, artistName, loading, albumName} = this.state;
-    // console.log(artistName, albumName);
+    const { musics, artistName, loading, albumName, musicasFavoritas } = this.state;
+    console.log(musicasFavoritas);
     return (
       <div data-testid="page-album">
         {
@@ -60,16 +76,12 @@ class Album extends Component {
           </p>
           {musics.map((music, index) => (
             <section key={ index }>
-              {/* <div data-testid="album-name">
-                <p>
-                  {artistName}
-                  {albumName}
-                </p>
-              </div> */}
               <div className="musics-card">
                 <MusicCard
                   trackName={ music.trackName }
                   previewUrl={ music.previewUrl }
+                  trackId={ [...musicasFavoritas, music.trackId] }
+                  checkLoading={ this.checkLoading }
                 />
               </div>
             </section>
