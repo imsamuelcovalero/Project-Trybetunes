@@ -90,7 +90,6 @@ MusicCard.propTypes = {
   trackName: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
-  //   favMusics: PropTypes.shape.isRequired,
   checkLoading: PropTypes.func.isRequired,
   music: PropTypes.shape.isRequired,
 };
