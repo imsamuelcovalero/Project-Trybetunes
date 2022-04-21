@@ -13,29 +13,42 @@ class MusicCard extends Component {
   }
 
   componentDidMount() {
-    const { favMusics, trackId } = this.props;
-    const resultado = trackId.filter((elemento) => elemento === favMusics);
-    if (resultado !== 0) {
+    const { favMusics, music } = this.props;
+    console.log('favMusics', favMusics);
+    console.log('music', music);
+    const resultado = favMusics.filter((elemento) => elemento.trackId === music.trackId);
+    console.log('resultado', resultado);
+    if (resultado.length !== 0) {
       this.setState({
         musicaFavorita: true,
       });
     }
-    // se positivo deixar true o estado
-    // começa falso
   }
 
   onClickAddSong = async () => {
     console.log('entrou em onClickAddSong');
-    const { checkLoading, trackId } = this.props;
-    console.log('trackId', trackId);
+    const { musicaFavorita } = this.state;
+    const { checkLoading, music } = this.props;
+    // console.log('favMusics', favMusics);
+    console.log('music', music);
     checkLoading(true);
-    await addSong(trackId);
+    await addSong(music);
     checkLoading(false);
+    if (musicaFavorita === true) {
+      (this.setState({
+        musicaFavorita: false,
+      }));
+    } else {
+      (this.setState({
+        musicaFavorita: true,
+      }));
+    }
   };
 
   render() {
   // desestrutura as props
     const { trackName, previewUrl, trackId } = this.props;
+    // console.log('music2', music);
     const { musicaFavorita } = this.state;
     return (
     // cria uma sessão para os álbums
@@ -70,8 +83,9 @@ MusicCard.propTypes = {
   trackName: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
-  favMusics: PropTypes.number.isRequired,
+  favMusics: PropTypes.shape.isRequired,
   checkLoading: PropTypes.func.isRequired,
+  music: PropTypes.shape.isRequired,
 };
 
 // exporta a classe

@@ -14,7 +14,7 @@ class Album extends Component {
       artistName: '',
       loading: false,
       musics: [],
-      musicasFavoritas: '',
+      musicasFavoritas: [],
     };
   }
 
@@ -24,6 +24,7 @@ class Album extends Component {
       loading: true,
     });
     const musicas = await getFavoriteSongs();
+    console.log('musicas salvas', musicas);
     this.setState({
       loading: false,
       musicasFavoritas: musicas,
@@ -58,7 +59,7 @@ class Album extends Component {
 
   render() {
     const { musics, artistName, loading, albumName, musicasFavoritas } = this.state;
-    console.log(musicasFavoritas);
+    // console.log(musicasFavoritas);
     return (
       <div data-testid="page-album">
         {
@@ -74,13 +75,15 @@ class Album extends Component {
           <p data-testid="album-name">
             {`Nome do Album: ${albumName}`}
           </p>
-          {musics.map((music, index) => (
-            <section key={ index }>
+          {musics.map((music) => (
+            <section key={ music.trackId }>
               <div className="musics-card">
                 <MusicCard
                   trackName={ music.trackName }
                   previewUrl={ music.previewUrl }
-                  trackId={ [...musicasFavoritas, music.trackId] }
+                  trackId={ music.trackId }
+                  music={ music }
+                  favMusics={ musicasFavoritas }
                   checkLoading={ this.checkLoading }
                 />
               </div>
