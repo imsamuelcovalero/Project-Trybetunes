@@ -24,7 +24,7 @@ class Album extends Component {
       loading: true,
     });
     const musicas = await getFavoriteSongs();
-    console.log('musicas salvas', musicas);
+    console.log('musicas favoritas', musicas);
     this.setState({
       loading: false,
       musicasFavoritas: musicas,

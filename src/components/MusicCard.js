@@ -1,7 +1,7 @@
 // importa React, Props e CSS
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 // Cria uma classe responsável por renderizar as cartas
 class MusicCard extends Component {
@@ -12,11 +12,15 @@ class MusicCard extends Component {
     };
   }
 
-  componentDidMount() {
-    const { favMusics, music } = this.props;
-    console.log('favMusics', favMusics);
+  async componentDidMount() {
+    const { music, checkLoading } = this.props;
+    checkLoading(true);
+    const musicasFavs = await getFavoriteSongs();
+    console.log('musicas favoritas', musicasFavs);
+    checkLoading(false);
     console.log('music', music);
-    const resultado = favMusics.filter((elemento) => elemento.trackId === music.trackId);
+    const resultado = musicasFavs
+      .filter((elemento) => elemento.trackId === music.trackId);
     console.log('resultado', resultado);
     if (resultado.length !== 0) {
       this.setState({
@@ -83,7 +87,7 @@ MusicCard.propTypes = {
   trackName: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
-  favMusics: PropTypes.shape.isRequired,
+//   favMusics: PropTypes.shape.isRequired,
   checkLoading: PropTypes.func.isRequired,
   music: PropTypes.shape.isRequired,
 };
