@@ -1,7 +1,7 @@
 // importa React, Props e CSS
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 
 // Cria uma classe responsável por renderizar as cartas
 class MusicCard extends Component {
@@ -29,20 +29,23 @@ class MusicCard extends Component {
     }
   }
 
-  onClickAddSong = async () => {
+  onClickOnCheck = async () => {
     console.log('entrou em onClickAddSong');
     const { musicaFavorita } = this.state;
     const { checkLoading, music } = this.props;
     // console.log('favMusics', favMusics);
     console.log('music', music);
-    checkLoading(true);
-    await addSong(music);
-    checkLoading(false);
     if (musicaFavorita === true) {
+      checkLoading(true);
+      await removeSong(music);
+      checkLoading(false);
       (this.setState({
         musicaFavorita: false,
       }));
     } else {
+      checkLoading(true);
+      await addSong(music);
+      checkLoading(false);
       (this.setState({
         musicaFavorita: true,
       }));
@@ -74,7 +77,7 @@ class MusicCard extends Component {
             checked={ musicaFavorita }
             type="checkbox"
             name="musicFavorite"
-            onClick={ this.onClickAddSong }
+            onClick={ this.onClickOnCheck }
           />
         </label>
       </section>
@@ -87,7 +90,7 @@ MusicCard.propTypes = {
   trackName: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
-//   favMusics: PropTypes.shape.isRequired,
+  //   favMusics: PropTypes.shape.isRequired,
   checkLoading: PropTypes.func.isRequired,
   music: PropTypes.shape.isRequired,
 };
