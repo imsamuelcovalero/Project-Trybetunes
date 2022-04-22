@@ -4,7 +4,8 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
-import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+// import Favorites from './Favorites';
+import { getFavoriteSongs, addSong, removeSong } from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   constructor() {
@@ -20,14 +21,20 @@ class Album extends Component {
 
   async componentDidMount() {
     this.getMusicas();
+    this.getFavorites();
+  }
+
+  getFavorites = async () => {
     this.setState({
       loading: true,
     });
-    const musicas = await getFavoriteSongs();
-    console.log('musicas favoritas', musicas);
+    const musicasFavs = await getFavoriteSongs();
+    // console.log('musicas salvas', musicasFavs);
     this.setState({
       loading: false,
-      musicasFavoritas: musicas,
+    });
+    this.setState({
+      musicasFavoritas: musicasFavs,
     });
   }
 
@@ -51,15 +58,60 @@ class Album extends Component {
     });
   }
 
-  checkLoading = (boolean) => {
-    this.setState({
-      loading: boolean,
-    });
-  }
+  onRefresh = (boolean) => {
+    console.log('entrou em onRefresh');
+    const xlablau = boolean;
+    if (xlablau === true) {
+      // this.getMusicas();
+      this.getFavorites();
+      this.setState({});
+    }
+  };
+
+  onClickAlbum = async (music) => {
+    console.log('entrou em onClickAlbum');
+    const { musicasFavoritas } = this.state;
+    // const { wichComponent, checkLoading, music } = this.props;
+    // const { music } = target;
+    // const { checkLoading, music, getFavorites } = this.props;
+    // console.log('favMusics', musicaFavoritas);
+    console.log('music', music);
+    const resultado = musicasFavoritas
+      .filter((elemento) => elemento.trackId === music.trackId);
+    console.log('resultado', resultado);
+    if (resultado.length !== 0) {
+      console.log('condição album 1');
+      this.setState({
+        loading: true,
+      });
+      await removeSong(music);
+      this.setState({
+        loading: false,
+      });
+      this.onRefresh(true);
+    } else {
+      console.log('condição album 2');
+      this.setState({
+        loading: true,
+      });
+      await addSong(music);
+      this.setState({
+        loading: false,
+      });
+      this.onRefresh(true);
+    }
+  };
+
+  // checkLoading = (boolean) => {
+  //   this.setState({
+  //     loading: boolean,
+  //   });
+  // }
 
   render() {
     const { musics, artistName, loading, albumName, musicasFavoritas } = this.state;
-    // console.log(musicasFavoritas);
+    // console.log('favoritas album', musicasFavoritas);
+    // console.log('musics', musics);
     return (
       <div data-testid="page-album">
         {
@@ -84,12 +136,16 @@ class Album extends Component {
                   trackId={ music.trackId }
                   music={ music }
                   favMusics={ musicasFavoritas }
-                  checkLoading={ this.checkLoading }
+                  onClickAlbum={ this.onClickAlbum }
+                  checked={ musicasFavoritas
+                    .some((favorita) => favorita.trackId === music.trackId) }
+                  wichComponent="album"
                 />
               </div>
             </section>
           ))}
         </section>
+        {/* <Favorites musics={ musics } /> */}
       </div>
     );
   }

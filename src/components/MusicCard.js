@@ -1,62 +1,67 @@
 // importa React, Props e CSS
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
+// import Loading from './Loading';
+// import { Redirect } from 'react-router-dom';
+// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 // Cria uma classe responsável por renderizar as cartas
 class MusicCard extends Component {
-  constructor() {
-    super();
-    this.state = {
-      musicaFavorita: false,
-    };
-  }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     musicaFavorita: false,
+  //   };
+  // }
 
-  async componentDidMount() {
-    const { music, checkLoading } = this.props;
-    checkLoading(true);
-    const musicasFavs = await getFavoriteSongs();
-    console.log('musicas favoritas', musicasFavs);
-    checkLoading(false);
-    console.log('music', music);
-    const resultado = musicasFavs
-      .filter((elemento) => elemento.trackId === music.trackId);
-    console.log('resultado', resultado);
-    if (resultado.length !== 0) {
-      this.setState({
-        musicaFavorita: true,
-      });
-    }
-  }
+  // componentDidMount() {
+  //   this.verificaMusicas();
+  // }
+
+  // verificaMusicas = async () => {
+  //   const { music, checkLoading } = this.props;
+  //   checkLoading(true);
+  //   const musicasFavs = await getFavoriteSongs();
+  //   console.log('musicas favoritas', musicasFavs);
+  //   checkLoading(false);
+  //   console.log('music', music);
+  //   const resultado = musicasFavs
+  //     .filter((elemento) => elemento.trackId === music.trackId);
+  //   // console.log('resultado', resultado);
+  //   if (resultado.length !== 0) {
+  //     this.setState({
+  //       musicaFavorita: true,
+  //     });
+  //   }
+  // }
 
   onClickOnCheck = async () => {
-    console.log('entrou em onClickAddSong');
-    const { musicaFavorita } = this.state;
-    const { checkLoading, music } = this.props;
-    // console.log('favMusics', favMusics);
+    console.log('entrou em onClickOnCheck');
+    // const { musicaFavorita } = this.state;
+    const { wichComponent, music, onClickAlbum, onClickFavorites } = this.props;
+    console.log('wichComponent', wichComponent);
+    // const { music } = target;
+    // const { checkLoading, music, getFavorites } = this.props;
+    // console.log('favMusics', musicaFavoritas);
     console.log('music', music);
-    if (musicaFavorita === true) {
-      checkLoading(true);
-      await removeSong(music);
-      checkLoading(false);
-      (this.setState({
-        musicaFavorita: false,
-      }));
-    } else {
-      checkLoading(true);
-      await addSong(music);
-      checkLoading(false);
-      (this.setState({
-        musicaFavorita: true,
-      }));
+    // const resultado = musicaFavorita
+    //   .filter((elemento) => elemento.trackId === music.trackId);
+    // console.log('resultado', resultado);
+    if (wichComponent === 'album') {
+      console.log('clicou wichComponent1');
+      onClickAlbum(music);
+      // onRefresh(true);
+    } else if (wichComponent === 'favorites') {
+      console.log('clicou wichComponent2');
+      onClickFavorites(music);
     }
   };
 
   render() {
   // desestrutura as props
-    const { trackName, previewUrl, trackId } = this.props;
-    // console.log('music2', music);
-    const { musicaFavorita } = this.state;
+    const { trackName, previewUrl, trackId, checked } = this.props;
+    // console.log('checked', checked);
+    // const { musicaFavorita } = this.state;
     return (
     // cria uma sessão para os álbums
       <section className="music-card">
@@ -74,10 +79,11 @@ class MusicCard extends Component {
           <input
             data-testid={ `checkbox-music-${trackId}` }
             id="favoritas"
-            checked={ musicaFavorita }
+            checked={ checked }
             type="checkbox"
             name="musicFavorite"
-            onClick={ this.onClickOnCheck }
+            // value={ music }
+            onChange={ this.onClickOnCheck }
           />
         </label>
       </section>
@@ -90,8 +96,13 @@ MusicCard.propTypes = {
   trackName: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
-  checkLoading: PropTypes.func.isRequired,
-  music: PropTypes.shape.isRequired,
+  // onClickOnCheck: PropTypes.func.isRequired,
+  // onRefresh: PropTypes.func,
+  music: PropTypes.objectOf(PropTypes.shape).isRequired,
+  checked: PropTypes.bool.isRequired,
+  wichComponent: PropTypes.string.isRequired,
+  onClickAlbum: PropTypes.func.isRequired,
+  onClickFavorites: PropTypes.func.isRequired,
 };
 
 // exporta a classe

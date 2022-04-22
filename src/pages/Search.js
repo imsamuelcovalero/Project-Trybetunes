@@ -45,7 +45,7 @@ class Search extends Component {
 
   onClickSearch = async ({ target }) => {
     const { artistName } = this.state;
-    // console.log('artistName', artistName);
+    console.log('artistName', artistName);
     this.setState({
       loading: true,
     });
