@@ -101,8 +101,13 @@ MusicCard.propTypes = {
   music: PropTypes.objectOf(PropTypes.shape).isRequired,
   checked: PropTypes.bool.isRequired,
   wichComponent: PropTypes.string.isRequired,
-  onClickAlbum: PropTypes.func.isRequired,
-  onClickFavorites: PropTypes.func.isRequired,
+  onClickAlbum: PropTypes.func,
+  onClickFavorites: PropTypes.func,
+};
+
+MusicCard.defaultProps = {
+  onClickAlbum: PropTypes.func,
+  onClickFavorites: PropTypes.func,
 };
 
 // exporta a classe
