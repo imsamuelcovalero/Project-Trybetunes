@@ -64,7 +64,7 @@ class Album extends Component {
     if (xlablau === true) {
       // this.getMusicas();
       this.getFavorites();
-      this.setState({});
+      // this.setState({});
     }
   };
 

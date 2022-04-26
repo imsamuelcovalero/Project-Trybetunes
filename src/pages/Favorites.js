@@ -37,7 +37,7 @@ class Favorites extends Component {
     const xlablau = boolean;
     if (xlablau === true) {
       this.getFavorites();
-      this.setState({});
+      // this.setState({});
     }
   };
 

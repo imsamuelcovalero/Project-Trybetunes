@@ -31,19 +31,25 @@ class Profile extends Component {
       <div data-testid="page-profile">
         {
           loading
-            && <Loading />
+            ? <Loading />
+            : <Header />
         }
-        <Header />
-        <div className="profile">
-          teste
-          <p>{user.name}</p>
-          <p>{user.email}</p>
-          <p>{user.description}</p>
-          <img data-testid="profile-image" src={ user.image } alt="user" />
-          <div>
-            <Link to="/profile/edit">Editar perfil</Link>
-          </div>
-        </div>
+        {
+          loading
+            ? <Loading />
+            : (
+              <div className="profile">
+                teste
+                <p>{user.name}</p>
+                <p>{user.email}</p>
+                <p>{user.description}</p>
+                <img data-testid="profile-image" src={ user.image } alt="user" />
+                <div>
+                  <Link to="/profile/edit">Editar perfil</Link>
+                </div>
+              </div>
+            )
+        }
       </div>
     );
   }

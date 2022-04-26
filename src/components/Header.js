@@ -1,10 +1,12 @@
+// Importa React, Link do Router, getUser da userAPI e o componente Loading
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
 import Loading from './Loading';
 
+// Cria uma classe para mostrar a Header da página
 class Header extends Component {
+  // Inicia o estado
   constructor() {
     super();
     this.state = {
@@ -13,39 +15,31 @@ class Header extends Component {
     };
   }
 
-  componentDidMount() {
-    this.getName();
-  }
-
-  getName = async () => {
-    // console.log(this.props);
-    // const { checkLoading } = this.props;
-    // console.log('checkLoading', checkLoading);
-    // checkLoading(true);
+  // Chama a API getUser dentro do componentDidMount
+  componentDidMount = async () => {
     this.setState({
       loading: true,
     });
     const resposta = await getUser();
-    // console.log(resposta);
     this.setState({
       userName: resposta.name,
       loading: false,
     });
-  };
+  }
 
   render() {
-    // const { loading } = this.props;
     const { userName, loading } = this.state;
-    // console.log('userName', userName);
     return (
       <header data-testid="header-component">
         {
           loading
             && <Loading />
         }
+        {/* Exibe o username do estado */}
         <h4 data-testid="header-user-name">
           { userName }
         </h4>
+        {/* Exibe os links de navegação do cabeçalho */}
         <section className="Links">
           <h4>Links de Navegação</h4>
           <nav>
@@ -58,10 +52,5 @@ class Header extends Component {
     );
   }
 }
-
-// Header.propTypes = {
-//   loading: PropTypes.bool.isRequired,
-//   checkLoading: PropTypes.func.isRequired,
-// };
 
 export default Header;

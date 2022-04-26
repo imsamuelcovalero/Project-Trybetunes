@@ -102,55 +102,62 @@ class ProfileEdit extends Component {
       <div data-testid="page-profile-edit">
         {
           loading
-            && <Loading />
+            ? <Loading />
+            : <Header />
         }
-        <Header />
-        <form>
-          <input
-            data-testid="edit-input-name"
-            type="text"
-            name="name"
-            placeholder="Nome do Usuário"
-            value={ name }
-            onChange={ this.onInputChange }
-            required
-          />
-          <input
-            data-testid="edit-input-email"
-            type="email"
-            placeholder="usuario@usuario.com.br"
-            name="email"
-            value={ email }
-            onChange={ this.onInputChange }
-            required
-          />
-          <input
-            data-testid="edit-input-description"
-            type="text"
-            placeholder="Sobre mim"
-            name="description"
-            value={ description }
-            onChange={ this.onInputChange }
-            required
-          />
-          <input
-            data-testid="edit-input-image"
-            type="text"
-            placeholder="Insira um link"
-            name="image"
-            value={ image }
-            onChange={ this.onInputChange }
-            required
-          />
-          <button
-            type="submit"
-            data-testid="edit-button-save"
-            disabled={ isSaveButtonDisabled }
-            onClick={ this.onClickEnter }
-          >
-            Salvar
-          </button>
-        </form>
+        {
+          loading
+            ? <Loading />
+            : (
+              <form>
+                <input
+                  data-testid="edit-input-name"
+                  type="text"
+                  name="name"
+                  placeholder="Nome do Usuário"
+                  value={ name }
+                  onChange={ this.onInputChange }
+                  required
+                />
+                <input
+                  data-testid="edit-input-email"
+                  type="email"
+                  placeholder="usuario@usuario.com.br"
+                  name="email"
+                  value={ email }
+                  onChange={ this.onInputChange }
+                  required
+                />
+                <input
+                  data-testid="edit-input-description"
+                  type="text"
+                  placeholder="Sobre mim"
+                  name="description"
+                  value={ description }
+                  onChange={ this.onInputChange }
+                  required
+                />
+                <input
+                  data-testid="edit-input-image"
+                  type="text"
+                  placeholder="Insira um link"
+                  name="image"
+                  value={ image }
+                  onChange={ this.onInputChange }
+                  required
+                />
+                <button
+                  type="submit"
+                  data-testid="edit-button-save"
+                  disabled={ isSaveButtonDisabled }
+                  onClick={ this.onClickEnter }
+                >
+                  Salvar
+                </button>
+              </form>
+            )
+        }
+
       </div>
     );
   }

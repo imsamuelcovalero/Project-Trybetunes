@@ -1,3 +1,4 @@
+// Faz os imports
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
@@ -5,36 +6,39 @@ import Loading from '../components/Loading';
 import AlbumCard from '../components/AlbumCard';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
+// Cria uma classe para realizar a pesquisa dos artistas
 class Search extends Component {
+  // Seta o state no constructor
   constructor() {
     super();
     this.state = {
       artistName: '',
-      artistname2: '',
       isSaveButtonDisabled: true,
       loading: false,
       albuns: [],
     };
   }
 
+  // Cria uma função para lidar com os valores de entrada
   onInputChange = ({ target }) => {
     // muda o state atualizando os valores dos campos alterados
     this.setState({
       [target.name]: target.value,
-      // callback para executar a verificação após a atualização assíncrona do state com as informações digitadas
+      // Callback para executar a verificação após a atualização assíncrona do state com as informações digitadas
     }, () => {
-      // desestrutura o state
+      // Desestrutura o state
       const { artistName } = this.state;
 
-      // atribui valores a constantes para a realização das verificações
+      // Atribui valores a constantes para a realização das verificações
       const MINLETTERS = 2;
 
-      // console.log('artistName.length', artistName.length);
+      // Se o valor de entrada foi maior do que dois passa o nome para o artistname2 e habilita o botão Pesquisar
       if (artistName.length >= MINLETTERS) {
         this.setState({
-          artistname2: artistName,
+          artistName,
           isSaveButtonDisabled: false,
         });
+        // Caso contrário deixa desabilitado o botão
       } else {
         this.setState({
           isSaveButtonDisabled: true,
@@ -43,79 +47,89 @@ class Search extends Component {
     });
   }
 
+  // Cria uma função resposável por lidar com o valor de entrada relacionado ao botão Entrar
   onClickSearch = async ({ target }) => {
     const { artistName } = this.state;
-    console.log('artistName', artistName);
     this.setState({
       loading: true,
     });
+    //  Consulta a API com o valor de entrada recebido
     const resposta = await searchAlbumsAPI(artistName);
-    // console.log(resposta);
     this.setState({
       albuns: resposta,
       loading: false,
       artistName: '',
     });
+    // Apaga o campo digitado
     target.value = '';
   }
 
   render() {
-    const { artistName, isSaveButtonDisabled, loading, albuns, artistname2 } = this.state;
-    // const { collectionId } = albuns;
-    // console.log('collectionId', albuns.artistName);
+    const { artistName, isSaveButtonDisabled, loading, albuns } = this.state;
     return (
       <div data-testid="page-search">
         {
           loading
-            && <Loading />
+            ? <Loading />
+            : <Header />
         }
-        <Header />
-        <h1>SEARCH</h1>
-        <form>
-          <input
-            data-testid="search-artist-input"
-            type="text"
-            placeholder="Nome do Artista"
-            name="artistName"
-            value={ artistName }
-            onChange={ this.onInputChange }
-            required
-          />
-          <button
-            type="button"
-            data-testid="search-artist-button"
-            disabled={ isSaveButtonDisabled }
-            onClick={ this.onClickSearch }
-          >
-            Pesquisar
-          </button>
-          { albuns.length === 0
-            ? (<p>Nenhum álbum foi encontrado</p>)
+        {
+          loading
+            ? <Loading />
             : (
-              <section>
-                <p>
-                  {`Resultado de álbuns de: ${artistname2}`}
-                </p>
-                {albuns.map((album, index) => (
-                  <section key={ index }>
+              // Cria o form de recebimento do nome do artista com um botão de Pesquisar
+              <form>
+                <input
+                  data-testid="search-artist-input"
+                  type="text"
+                  placeholder="Nome do Artista"
+                  name="artistName"
+                  value={ artistName }
+                  onChange={ this.onInputChange }
+                  required
+                />
+                <button
+                  type="button"
+                  data-testid="search-artist-button"
+                  disabled={ isSaveButtonDisabled }
+                  onClick={ this.onClickSearch }
+                >
+                  Pesquisar
+                </button>
+                {/* Caso albuns não receba nenhum valor mostra uma frase informado */}
+                { albuns.length === 0
+                  ? (<p>Nenhum álbum foi encontrado</p>)
+                  : (
+                    // Caso receba exbibe na tela as informações referentes ao álbum
                     <section>
-                      <Link
-                        to={ `/album/${album.collectionId}` }
-                        data-testid={ `link-to-album-${album.collectionId}` }
-                      >
-                        <div className="album-card">
-                          <AlbumCard
-                            artwork={ album.artworkUrl100 }
-                            collectionName={ album.collectionName }
-                            artistName={ album.artistName }
-                          />
-                        </div>
-                      </Link>
-                    </section>
-                  </section>
-                ))}
-              </section>)}
-        </form>
+                      O nome do Artista
+                      <p>
+                        {`Resultado de álbuns de: ${artistName}`}
+                      </p>
+                      {/* Faz um map enviando os elementos do album para o AlbumCard
+                      E cria um link envolvendo os elementos exibidos na tela */}
+                      {albuns.map((album, index) => (
+                        <section key={ index }>
+                          <section>
+                            <Link
+                              to={ `/album/${album.collectionId}` }
+                              data-testid={ `link-to-album-${album.collectionId}` }
+                            >
+                              <div className="album-card">
+                                <AlbumCard
+                                  artwork={ album.artworkUrl100 }
+                                  collectionName={ album.collectionName }
+                                  artistName={ album.artistName }
+                                />
+                              </div>
+                            </Link>
+                          </section>
+                        </section>
+                      ))}
+                    </section>)}
+              </form>
+            )
+        }
       </div>
     );
   }

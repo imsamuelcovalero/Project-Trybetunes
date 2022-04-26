@@ -1,11 +1,11 @@
+// Importa React e o componente Content
 import React from 'react';
-// import Sidebar from './components/Sidebar';
 import Content from './components/Content';
 
 class App extends React.Component {
   constructor() {
     super();
-    // this.onClickEnter = this.onClickEnter.bind(this);
+    // Seta os estados iniciais
     this.state = {
       userName: '',
       isSaveButtonDisabled: true,
@@ -13,6 +13,7 @@ class App extends React.Component {
     };
   }
 
+  // Cria uma função para trabalhar o InputChange passado como props para Content e desta para Login
   onInputChange = ({ target }) => {
     // muda o state atualizando os valores dos campos alterados
     this.setState({
@@ -25,7 +26,7 @@ class App extends React.Component {
       // atribui valores a constantes para a realização das verificações
       const MINLETTERS = 3;
 
-      // console.log('userName.length', userName.length);
+      // Caso o valor do input seja maior ou igual a 3 abilita o botão, caso contrário permanece sesabilitado
       if (userName.length >= MINLETTERS) {
         this.setState({
           isSaveButtonDisabled: false,
@@ -38,6 +39,7 @@ class App extends React.Component {
     });
   }
 
+  // Função criada para receber um booleano do filho como parâmetro e mudar a condição do estado loading
   checkLoading = (boolean) => {
     this.setState({
       loading: boolean,
@@ -45,10 +47,11 @@ class App extends React.Component {
   }
 
   render() {
+    // Desestrutura o estado
     const { userName, isSaveButtonDisabled, loading } = this.state;
     return (
       <section>
-        {/* <Sidebar /> */}
+        {/* Passa para o componente contente as props que serão usadas posteriosmente em Login */}
         <Content
           userName={ userName }
           isSaveButtonDisabled={ isSaveButtonDisabled }
