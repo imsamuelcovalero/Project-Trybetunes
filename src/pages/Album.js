@@ -1,14 +1,16 @@
+// Faz os imports, inclusive de 2 APIs diferentes e do MusicCard
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
-// import Favorites from './Favorites';
 import { getFavoriteSongs, addSong, removeSong } from '../services/favoriteSongsAPI';
 
+// Cria uma classe que exiba as músicas do álbum selecionado
 class Album extends Component {
   constructor() {
+    // Inicia o state
     super();
     this.state = {
       albumName: '',
@@ -19,17 +21,18 @@ class Album extends Component {
     };
   }
 
+  // Dentro do DidMount chama getMusicas e getFavorites
   async componentDidMount() {
     this.getMusicas();
     this.getFavorites();
   }
 
+  // Cria uma função que consulta a API buscando pelas músicas salvas nos favoritos
   getFavorites = async () => {
     this.setState({
       loading: true,
     });
     const musicasFavs = await getFavoriteSongs();
-    // console.log('musicas salvas', musicasFavs);
     this.setState({
       loading: false,
     });
@@ -38,18 +41,18 @@ class Album extends Component {
     });
   }
 
+  // Cria uma função que consulta a API buscando pelas músicas do álbum selecionado
   getMusicas = async () => {
-    console.log('entrou em getMusicas');
-    // console.log(this.props);
+    // IMPORTANTE: Desestrutura as prop recebida pelo Router até chegar no id, presente no componente match
     const { match: { params: { id } } } = this.props;
-    console.log(id);
     this.setState({
       loading: true,
     });
     const resposta = await getMusics(id);
-    // console.log('resposta', resposta);
+    // Após recebeu a requisição da API faz um filtro removendo o primeiro elemento pois ele não é uma música, apenas outras informações
     const respostaFiltrada = resposta.filter((elemento, index) => index !== 0);
-    // console.log('resposta2', respostaFiltrada);
+    // Seta o state com o reultado, pegando o nome do artista e do álbum através do primeiro elemento da resposta (sem filtrar)
+    // pra não ter problema nos testes
     this.setState({
       musics: respostaFiltrada,
       loading: false,
@@ -58,39 +61,33 @@ class Album extends Component {
     });
   }
 
+  // Cria uma função para dar refresh nos favoritos
   onRefresh = (boolean) => {
-    console.log('entrou em onRefresh');
-    const xlablau = boolean;
-    if (xlablau === true) {
-      // this.getMusicas();
+    if (boolean === true) {
       this.getFavorites();
-      // this.setState({});
     }
   };
 
+  // Cria uma função para trabalhar o clique no checkbox de favoritas no componente MusicCard
+  // Recebe como parâmetro a música enviada pelo MusicCard como argumento
   onClickAlbum = async (music) => {
-    console.log('entrou em onClickAlbum');
     const { musicasFavoritas } = this.state;
-    // const { wichComponent, checkLoading, music } = this.props;
-    // const { music } = target;
-    // const { checkLoading, music, getFavorites } = this.props;
-    // console.log('favMusics', musicaFavoritas);
-    console.log('music', music);
+    // Filtra as músicas favoritas tendo como comparativo a música recebida como argumento
     const resultado = musicasFavoritas
       .filter((elemento) => elemento.trackId === music.trackId);
-    console.log('resultado', resultado);
+    // Caso o resultado tenha algum elemento, a música faz parte das favoritas
     if (resultado.length !== 0) {
-      console.log('condição album 1');
       this.setState({
         loading: true,
       });
+      // Então remove a música dos favoritos
       await removeSong(music);
       this.setState({
         loading: false,
       });
       this.onRefresh(true);
+      // Caso contrário a música do parâmetro não fazia parte dos favoritos e é então adicionada
     } else {
-      console.log('condição album 2');
       this.setState({
         loading: true,
       });
@@ -98,54 +95,56 @@ class Album extends Component {
       this.setState({
         loading: false,
       });
+      // Por fim chama a função de refresh
       this.onRefresh(true);
     }
   };
 
-  // checkLoading = (boolean) => {
-  //   this.setState({
-  //     loading: boolean,
-  //   });
-  // }
-
   render() {
     const { musics, artistName, loading, albumName, musicasFavoritas } = this.state;
-    // console.log('favoritas album', musicasFavoritas);
-    // console.log('musics', musics);
     return (
       <div data-testid="page-album">
         {
           loading
-            && <Loading />
+            ? <Loading />
+            : <Header />
         }
-        <Header />
-        <h1>ALBUM</h1>
-        <section>
-          <p data-testid="artist-name">
-            {`Nome do Artista: ${artistName}`}
-          </p>
-          <p data-testid="album-name">
-            {`Nome do Album: ${albumName}`}
-          </p>
-          {musics.map((music) => (
-            <section key={ music.trackId }>
-              <div className="musics-card">
-                <MusicCard
-                  trackName={ music.trackName }
-                  previewUrl={ music.previewUrl }
-                  trackId={ music.trackId }
-                  music={ music }
-                  favMusics={ musicasFavoritas }
-                  onClickAlbum={ this.onClickAlbum }
-                  checked={ musicasFavoritas
-                    .some((favorita) => favorita.trackId === music.trackId) }
-                  wichComponent="album"
-                />
-              </div>
-            </section>
-          ))}
-        </section>
-        {/* <Favorites musics={ musics } /> */}
+        {
+          loading
+            ? <Loading />
+            : (
+              <section>
+                {/* Exibe os nomes do artista e do álbum */}
+                <p data-testid="artist-name">
+                  {`Nome do Artista: ${artistName}`}
+                </p>
+                <p data-testid="album-name">
+                  {`Nome do Album: ${albumName}`}
+                </p>
+                {/* Faz um map com as músicas do álbum e envia para o MusicCard as informações necessárias como Props */}
+                {musics.map((music) => (
+                  <section key={ music.trackId }>
+                    <div className="musics-card">
+                      <MusicCard
+                        trackName={ music.trackName }
+                        previewUrl={ music.previewUrl }
+                        trackId={ music.trackId }
+                        music={ music }
+                        favMusics={ musicasFavoritas }
+                        onClickAlbum={ this.onClickAlbum }
+                        // Já passa para o MusicCard se o checked em Favorita deve estar ativo (true) ou não (false)
+                        /* lógica desenvolvida por Takashi */
+                        checked={ musicasFavoritas
+                          .some((favorita) => favorita.trackId === music.trackId) }
+                        // Passa para Musiccard qual componente está requisitando a renderização
+                        wichComponent="album"
+                      />
+                    </div>
+                  </section>
+                ))}
+              </section>
+            )
+        }
       </div>
     );
   }

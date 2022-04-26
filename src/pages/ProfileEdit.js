@@ -1,15 +1,16 @@
+// Faz os imports que serão usados
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import { getUser, updateUser } from '../services/userAPI';
 
+// Cria uma classe que cuida da página do Profile Edit
 class ProfileEdit extends Component {
   constructor() {
     super();
     this.state = {
       loading: false,
-      // user: [],
       name: '',
       email: '',
       image: '',
@@ -18,6 +19,7 @@ class ProfileEdit extends Component {
     };
   }
 
+  // No DidMount faz request do user na API e seta o estado
   componentDidMount = async () => {
     this.setState({
       loading: true,
@@ -32,17 +34,17 @@ class ProfileEdit extends Component {
       image: userX.image,
       description: userX.description,
     }, () => {
+      // Após isso verifica as condições de erro
       this.verifyErrors();
     });
   }
 
+  // Cria uma função para verificar os valores iseridos nos inputs
   onInputChange = (event) => {
-    // cria uma constante que recebe o valor do event.target e caso seja checkbox recebe o valor do checked
+    // cria uma constante que recebe o evento
     event.preventDefault();
     const { target } = event;
-    // console.log('entrou em onInputChange');
-    console.log('value', target.value);
-    // muda o state atualizando os valores dos campos alterados
+    // muda o state atualizando com os valores dos campos alterados
     this.setState({
       [target.name]: target.value,
       // callback para executar a verificação após a atualização assíncrona do state com as informações digitadas
@@ -51,34 +53,36 @@ class ProfileEdit extends Component {
     });
   }
 
+  // Cria uma função para verificar as condições para o botão Salvar ficar habilitado
   verifyErrors = () => {
     const { name, email, image, description } = this.state;
-    // console.log(name, email, image, description);
+    // Pattern criada para validar o formato da entrada de email
     const pattern = /\S+@\S+.com/;
-    // cria uma constante para receber em uma array o booleano de cada verificação
+    // Cria uma constante para receber em uma array o booleano de cada verificação
     const errorCases = [
       name === '',
       email === '',
       image === '',
       description === '',
       pattern.test(email) === false,
-      // emailCheck === false,
     ];
-    // caso alguma verificação for verdadeira, desabilita o botão de salvar
+    // caso alguma verificação for verdadeira, desabilita o botão de salvar, caso contrário habilita
     const isDisabled = errorCases.some((err) => err === true);
     this.setState({
       isSaveButtonDisabled: isDisabled,
     });
   }
 
+  // Cria uma função que recebe o evento de clique
   onClickEnter = async (event) => {
     event.preventDefault();
-    console.log('entrou');
+    // Desestrutura history das props, que será usada para redirecionar a página ao final
     const { history } = this.props;
     const { name, email, image, description } = this.state;
     this.setState({
       loading: true,
     });
+    // Insere na função updateUser da API os dados do usuário atualizados
     await updateUser(
       {
         name,
@@ -87,17 +91,15 @@ class ProfileEdit extends Component {
         description,
       },
     );
-    console.log('entrou');
     this.setState({
       loading: false,
     });
+    // Redireciona para a página do Profile
     history.push('/profile');
   }
 
   render() {
-    const { loading, name, email, image, description,
-      isSaveButtonDisabled } = this.state;
-    // console.log('redirect', redirect);
+    const { loading, name, email, image, description, isSaveButtonDisabled } = this.state;
     return (
       <div data-testid="page-profile-edit">
         {
@@ -109,6 +111,7 @@ class ProfileEdit extends Component {
           loading
             ? <Loading />
             : (
+              // Exibe o form para alteração dos dados
               <form>
                 <input
                   data-testid="edit-input-name"
@@ -149,6 +152,7 @@ class ProfileEdit extends Component {
                 <button
                   type="submit"
                   data-testid="edit-button-save"
+                  // Habilitado ou desabilitado conforme as condições de verificação
                   disabled={ isSaveButtonDisabled }
                   onClick={ this.onClickEnter }
                 >
@@ -163,6 +167,7 @@ class ProfileEdit extends Component {
   }
 }
 
+// Especifica o tipo da prop history
 ProfileEdit.propTypes = {
   history: PropTypes.shape.isRequired,
 };

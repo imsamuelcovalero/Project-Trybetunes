@@ -1,9 +1,11 @@
+// Faz os imports que serão usados
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { getUser } from '../services/userAPI';
 import Loading from '../components/Loading';
 
+// Cria uma classe que cuida da página do Profile
 class Profile extends Component {
   constructor() {
     super();
@@ -13,12 +15,13 @@ class Profile extends Component {
     };
   }
 
+  // No DidMount chama a função que faz a requisição do usuário na API
   componentDidMount = async () => {
     this.setState({
       loading: true,
     });
+    // Seta o usu[ario no estado
     const userX = await getUser();
-    // console.log('user', userX);
     this.setState({
       loading: false,
       user: userX,
@@ -38,12 +41,13 @@ class Profile extends Component {
           loading
             ? <Loading />
             : (
+              // Exibe as informações do usuário na tela
               <div className="profile">
-                teste
                 <p>{user.name}</p>
                 <p>{user.email}</p>
                 <p>{user.description}</p>
                 <img data-testid="profile-image" src={ user.image } alt="user" />
+                {/* Faz um link para editar o profile */}
                 <div>
                   <Link to="/profile/edit">Editar perfil</Link>
                 </div>

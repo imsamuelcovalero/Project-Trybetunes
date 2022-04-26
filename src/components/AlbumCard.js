@@ -1,8 +1,8 @@
-// importa React, Props e CSS
+// importa React e  Props
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-// Cria uma classe responsável por renderizar as cartas
+// Cria uma classe responsável por renderizar os álbuns
 class AlbumCard extends Component {
   render() {
     // desestrutura as props

@@ -1,72 +1,29 @@
-// importa React, Props e CSS
+// importa React, Props
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import Loading from './Loading';
-// import { Redirect } from 'react-router-dom';
-// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
-// Cria uma classe responsável por renderizar as cartas
+// Cria uma classe responsável por renderizar as músicas
 class MusicCard extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     musicaFavorita: false,
-  //   };
-  // }
-
-  // componentDidMount() {
-  //   this.verificaMusicas();
-  // }
-
-  // verificaMusicas = async () => {
-  //   const { music, checkLoading } = this.props;
-  //   checkLoading(true);
-  //   const musicasFavs = await getFavoriteSongs();
-  //   console.log('musicas favoritas', musicasFavs);
-  //   checkLoading(false);
-  //   console.log('music', music);
-  //   const resultado = musicasFavs
-  //     .filter((elemento) => elemento.trackId === music.trackId);
-  //   // console.log('resultado', resultado);
-  //   if (resultado.length !== 0) {
-  //     this.setState({
-  //       musicaFavorita: true,
-  //     });
-  //   }
-  // }
-
   onClickOnCheck = async () => {
-    console.log('entrou em onClickOnCheck');
-    // const { musicaFavorita } = this.state;
     const { wichComponent, music, onClickAlbum, onClickFavorites } = this.props;
-    console.log('wichComponent', wichComponent);
-    // const { music } = target;
-    // const { checkLoading, music, getFavorites } = this.props;
-    // console.log('favMusics', musicaFavoritas);
-    console.log('music', music);
-    // const resultado = musicaFavorita
-    //   .filter((elemento) => elemento.trackId === music.trackId);
-    // console.log('resultado', resultado);
+    // Verifica se o a requisição de renderização veio de Album ou de Favorites
+    // Se veio de Album chama a função onClickAlbum passando como argumento a música
     if (wichComponent === 'album') {
-      console.log('clicou wichComponent1');
       onClickAlbum(music);
-      // onRefresh(true);
+      // Se veio de Favorites chama a função onClickFavorites passando como argumento a música
     } else if (wichComponent === 'favorites') {
-      console.log('clicou wichComponent2');
       onClickFavorites(music);
     }
   };
 
   render() {
-  // desestrutura as props
+  // Desestrutura as props
     const { trackName, previewUrl, trackId, checked } = this.props;
-    // console.log('checked', checked);
-    // const { musicaFavorita } = this.state;
     return (
-    // cria uma sessão para os álbums
+    // Cria uma sessão para as músicas
       <section className="music-card">
-        {/* Exibe o MusicCard */}
         <h4>{ trackName }</h4>
+        {/* Implementação retirara do README para tocar o preview */}
         <audio data-testid="audio-component" src={ previewUrl } controls>
           <track kind="captions" />
           O seu navegador não suporta o elemento
@@ -74,6 +31,7 @@ class MusicCard extends Component {
           <code>audio</code>
           .
         </audio>
+        {/* Cria uma label para a checkbox Favorita */}
         <label htmlFor="favoritas" className="favoritas">
           Favorita
           <input
@@ -82,7 +40,7 @@ class MusicCard extends Component {
             checked={ checked }
             type="checkbox"
             name="musicFavorite"
-            // value={ music }
+            // Quando tiver mudança chama uma função para verificar de qual componente pai veio a requisição de Renderização
             onChange={ this.onClickOnCheck }
           />
         </label>
@@ -91,13 +49,11 @@ class MusicCard extends Component {
   }
 }
 
-// declara os tipos das props
+// Declara os tipos das props requeridas
 MusicCard.propTypes = {
   trackName: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
-  // onClickOnCheck: PropTypes.func.isRequired,
-  // onRefresh: PropTypes.func,
   music: PropTypes.objectOf(PropTypes.shape).isRequired,
   checked: PropTypes.bool.isRequired,
   wichComponent: PropTypes.string.isRequired,
@@ -105,6 +61,7 @@ MusicCard.propTypes = {
   onClickFavorites: PropTypes.func,
 };
 
+// Essa declaração de props é usada para props que não são requeridas
 MusicCard.defaultProps = {
   onClickAlbum: PropTypes.func,
   onClickFavorites: PropTypes.func,

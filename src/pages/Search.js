@@ -68,68 +68,61 @@ class Search extends Component {
     const { artistName, isSaveButtonDisabled, loading, albuns } = this.state;
     return (
       <div data-testid="page-search">
-        {
-          loading
-            ? <Loading />
-            : <Header />
-        }
-        {
-          loading
-            ? <Loading />
+        {/* Cria o form de recebimento do nome do artista com um botão de Pesquisar */}
+        <Header />
+        <form>
+          <input
+            data-testid="search-artist-input"
+            type="text"
+            placeholder="Nome do Artista"
+            name="artistName"
+            value={ artistName }
+            onChange={ this.onInputChange }
+            required
+          />
+          <button
+            type="button"
+            data-testid="search-artist-button"
+            disabled={ isSaveButtonDisabled }
+            onClick={ this.onClickSearch }
+          >
+            Pesquisar
+          </button>
+          {
+            loading
+              && <Loading />
+          }
+          { albuns.length === 0
+            // Caso albuns não receba nenhum valor mostra uma frase informado
+            ? (<p>Nenhum álbum foi encontrado</p>)
             : (
-              // Cria o form de recebimento do nome do artista com um botão de Pesquisar
-              <form>
-                <input
-                  data-testid="search-artist-input"
-                  type="text"
-                  placeholder="Nome do Artista"
-                  name="artistName"
-                  value={ artistName }
-                  onChange={ this.onInputChange }
-                  required
-                />
-                <button
-                  type="button"
-                  data-testid="search-artist-button"
-                  disabled={ isSaveButtonDisabled }
-                  onClick={ this.onClickSearch }
-                >
-                  Pesquisar
-                </button>
-                {/* Caso albuns não receba nenhum valor mostra uma frase informado */}
-                { albuns.length === 0
-                  ? (<p>Nenhum álbum foi encontrado</p>)
-                  : (
-                    // Caso receba exbibe na tela as informações referentes ao álbum
-                    <section>
-                      O nome do Artista
-                      <p>
-                        {`Resultado de álbuns de: ${artistName}`}
-                      </p>
-                      {/* Faz um map enviando os elementos do album para o AlbumCard
-                      E cria um link envolvendo os elementos exibidos na tela */}
-                      {albuns.map((album, index) => (
-                        <section key={ index }>
-                          <section>
-                            <Link
-                              to={ `/album/${album.collectionId}` }
-                              data-testid={ `link-to-album-${album.collectionId}` }
-                            >
-                              <div className="album-card">
-                                <AlbumCard
-                                  artwork={ album.artworkUrl100 }
-                                  collectionName={ album.collectionName }
-                                  artistName={ album.artistName }
-                                />
-                              </div>
-                            </Link>
-                          </section>
-                        </section>
-                      ))}
-                    </section>)}
-              </form>
-            )
-        }
+              // Caso receba exbibe na tela as informações referentes ao álbum
+              <section>
+                O nome do Artista
+                <p>
+                  {`Resultado de álbuns de: ${artistName}`}
+                </p>
+                {/* Faz um map enviando os elementos do album para o AlbumCard
+                            E cria um link envolvendo os elementos exibidos na tela */}
+                {albuns.map((album, index) => (
+                  <section key={ index }>
+                    <Link
+                      to={ `/album/${album.collectionId}` }
+                      data-testid={ `link-to-album-${album.collectionId}` }
+                    >
+                      <div className="album-card">
+                        {/* Chama o componente AlbumCard e passa as props */}
+                        <AlbumCard
+                          artwork={ album.artworkUrl100 }
+                          collectionName={ album.collectionName }
+                          artistName={ album.artistName }
+                        />
+                      </div>
+                    </Link>
+                  </section>
+                ))}
+              </section>)}
+        </form>
       </div>
     );
   }
