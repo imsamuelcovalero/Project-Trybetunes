@@ -1,9 +1,11 @@
 // Faz os imports que serão usados
 import React, { Component } from 'react';
-import Header from '../components/Header';
-import Loading from '../components/Loading';
-import { getFavoriteSongs, addSong, removeSong } from '../services/favoriteSongsAPI';
-import MusicCard from '../components/MusicCard';
+import PropTypes from 'prop-types';
+import Header from '../../components/Header/Header';
+import Loading from '../../components/Loading';
+import { getFavoriteSongs, addSong, removeSong } from '../../services/favoriteSongsAPI';
+import MusicCard from '../../components/MusicCard/MusicCard';
+import { DivGlobal, SectionS } from './Style';
 
 // Cria uma classe que cuida das página dos Favoritos
 class Favorites extends Component {
@@ -77,22 +79,26 @@ class Favorites extends Component {
 
   render() {
     const { loading, musicasFavoritas } = this.state;
+    const { history } = this.props;
     return (
-      <div data-testid="page-favorites">
+      <DivGlobal data-testid="page-favorites">
         {
           loading
             ? <Loading />
-            : <Header />
+            : <Header history={ history } />
         }
         {
           loading
             ? <Loading />
             : (
-              <section>
+              <SectionS>
                 {/* Faz um map com as músicas dos favoritos e envia para o MusicCard as informações necessárias como Props */}
-                {musicasFavoritas.map((musica) => (
-                  <section key={ musica.trackId }>
-                    <div className="musics-card">
+                <div id="pageTitle">
+                  <h3>Músicas Favoritas:</h3>
+                </div>
+                <section id="musicCard">
+                  {musicasFavoritas.map((musica) => (
+                    <div id="musics" key={ musica.trackId }>
                       <MusicCard
                         trackName={ musica.trackName }
                         previewUrl={ musica.previewUrl }
@@ -107,14 +113,18 @@ class Favorites extends Component {
                         wichComponent="favorites"
                       />
                     </div>
-                  </section>
-                ))}
-              </section>
+                  ))}
+                </section>
+              </SectionS>
             )
         }
-      </div>
+      </DivGlobal>
     );
   }
 }
+
+Favorites.propTypes = {
+  history: PropTypes.shape.isRequired,
+};
 
 export default Favorites;

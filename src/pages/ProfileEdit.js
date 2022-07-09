@@ -1,7 +1,7 @@
 // Faz os imports que serão usados
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 import Loading from '../components/Loading';
 import { getUser, updateUser } from '../services/userAPI';
 
@@ -100,12 +100,13 @@ class ProfileEdit extends Component {
 
   render() {
     const { loading, name, email, image, description, isSaveButtonDisabled } = this.state;
+    const { history } = this.props;
     return (
       <div data-testid="page-profile-edit">
         {
           loading
             ? <Loading />
-            : <Header />
+            : <Header history={ history } />
         }
         {
           loading

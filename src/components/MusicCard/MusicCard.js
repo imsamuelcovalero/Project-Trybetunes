@@ -1,10 +1,12 @@
 // importa React, Props
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { SectionS, CheckboxHeart } from './Style';
 
 // Cria uma classe responsável por renderizar as músicas
 class MusicCard extends Component {
-  onClickOnCheck = async () => {
+  onClickOnCheck = () => {
     const { wichComponent, music, onClickAlbum, onClickFavorites } = this.props;
     // Verifica se o a requisição de renderização veio de Album ou de Favorites
     // Se veio de Album chama a função onClickAlbum passando como argumento a música
@@ -21,8 +23,8 @@ class MusicCard extends Component {
     const { trackName, previewUrl, trackId, checked } = this.props;
     return (
     // Cria uma sessão para as músicas
-      <section className="music-card">
-        <h4>{ trackName }</h4>
+      <SectionS>
+        <h4 id="musicName">{ trackName }</h4>
         {/* Implementação retirara do README para tocar o preview */}
         <audio data-testid="audio-component" src={ previewUrl } controls>
           <track kind="captions" />
@@ -32,19 +34,29 @@ class MusicCard extends Component {
           .
         </audio>
         {/* Cria uma label para a checkbox Favorita */}
-        <label htmlFor="favoritas" className="favoritas">
-          Favorita
-          <input
-            data-testid={ `checkbox-music-${trackId}` }
-            id="favoritas"
-            checked={ checked }
-            type="checkbox"
-            name="musicFavorite"
-            // Quando tiver mudança chama uma função para verificar de qual componente pai veio a requisição de Renderização
-            onChange={ this.onClickOnCheck }
-          />
-        </label>
-      </section>
+        <CheckboxHeart selected={ checked }>
+          {
+            checked
+              ? (
+                <AiFillHeart
+                  data-testid={ `checkbox-music-${trackId}` }
+                  color="red"
+                  id="favoritas"
+                  type="checkbox"
+                  // Quando tiver mudança chama uma função para verificar de qual componente pai veio a requisição de Renderização
+                  onClick={ this.onClickOnCheck }
+                />)
+              : (
+                <AiOutlineHeart
+                  data-testid={ `checkbox-music-${trackId}` }
+                  id="favoritas"
+                  type="checkbox"
+                  // Quando tiver mudança chama uma função para verificar de qual componente pai veio a requisição de Renderização
+                  onClick={ this.onClickOnCheck }
+                />)
+          }
+        </CheckboxHeart>
+      </SectionS>
     );
   }
 }

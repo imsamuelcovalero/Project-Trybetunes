@@ -50,16 +50,13 @@ class App extends React.Component {
     // Desestrutura o estado
     const { userName, isSaveButtonDisabled, loading } = this.state;
     return (
-      <section>
-        {/* Passa para o componente contente as props que serão usadas posteriosmente em Login */}
-        <Content
-          userName={ userName }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
-          loading={ loading }
-          onInputChange={ this.onInputChange }
-          checkLoading={ this.checkLoading }
-        />
-      </section>
+      <Content
+        userName={ userName }
+        isSaveButtonDisabled={ isSaveButtonDisabled }
+        loading={ loading }
+        onInputChange={ this.onInputChange }
+        checkLoading={ this.checkLoading }
+      />
     );
   }
 }

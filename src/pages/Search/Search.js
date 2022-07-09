@@ -1,10 +1,13 @@
 // Faz os imports
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Loading from '../components/Loading';
-import AlbumCard from '../components/AlbumCard';
-import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import PropTypes from 'prop-types';
+import { IoIosSearch } from 'react-icons/io';
+import Header from '../../components/Header/Header';
+import Loading from '../../components/Loading';
+// import AlbumCard from '../../components/AlbumCard';
+import searchAlbumsAPI from '../../services/searchAlbumsAPI';
+import { DivGlobal, AlbumCardS } from './Style';
 
 // Cria uma classe para realizar a pesquisa dos artistas
 class Search extends Component {
@@ -13,6 +16,7 @@ class Search extends Component {
     super();
     this.state = {
       artistName: '',
+      artistNameDisplay: '',
       isSaveButtonDisabled: true,
       loading: false,
       albuns: [],
@@ -58,6 +62,7 @@ class Search extends Component {
     this.setState({
       albuns: resposta,
       loading: false,
+      artistNameDisplay: artistName,
       artistName: '',
     });
     // Apaga o campo digitado
@@ -65,21 +70,29 @@ class Search extends Component {
   }
 
   render() {
-    const { artistName, isSaveButtonDisabled, loading, albuns } = this.state;
+    const { artistName, isSaveButtonDisabled, loading, albuns,
+      artistNameDisplay } = this.state;
+    const { history } = this.props;
     return (
-      <div data-testid="page-search">
+      <DivGlobal data-testid="page-search">
         {/* Cria o form de recebimento do nome do artista com um botão de Pesquisar */}
-        <Header />
+        <Header history={ history } />
         <form>
-          <input
-            data-testid="search-artist-input"
-            type="text"
-            placeholder="Nome do Artista"
-            name="artistName"
-            value={ artistName }
-            onChange={ this.onInputChange }
-            required
-          />
+          <span id="artistSearch">
+            <input
+              id="input-search"
+              data-testid="search-artist-input"
+              type="text"
+              placeholder="Nome do Artista"
+              name="artistName"
+              value={ artistName }
+              onChange={ this.onInputChange }
+              required
+            />
+            <span id="searchIcon">
+              <IoIosSearch />
+            </span>
+          </span>
           <button
             type="button"
             data-testid="search-artist-button"
@@ -88,44 +101,49 @@ class Search extends Component {
           >
             Pesquisar
           </button>
-          {
-            loading
+        </form>
+        {
+          loading
               && <Loading />
-          }
+        }
+        <span id="searchResults">
           { albuns.length === 0
             // Caso albuns não receba nenhum valor mostra uma frase informado
             ? (<p>Nenhum álbum foi encontrado</p>)
             : (
               // Caso receba exbibe na tela as informações referentes ao álbum
               <section>
-                O nome do Artista
-                <p>
-                  {`Resultado de álbuns de: ${artistName}`}
-                </p>
+                <h3 id="resultado">
+                  {`Resultado de álbuns de ${artistNameDisplay}:`}
+                </h3>
                 {/* Faz um map enviando os elementos do album para o AlbumCard
                             E cria um link envolvendo os elementos exibidos na tela */}
-                {albuns.map((album, index) => (
-                  <section key={ index }>
-                    <Link
-                      to={ `/album/${album.collectionId}` }
-                      data-testid={ `link-to-album-${album.collectionId}` }
-                    >
-                      <div className="album-card">
-                        {/* Chama o componente AlbumCard e passa as props */}
-                        <AlbumCard
-                          artwork={ album.artworkUrl100 }
-                          collectionName={ album.collectionName }
-                          artistName={ album.artistName }
-                        />
-                      </div>
-                    </Link>
-                  </section>
-                ))}
+                <AlbumCardS>
+                  {albuns.map((album, index) => (
+                    <div id="albumCard" key={ index }>
+                      <Link
+                        to={ `/album/${album.collectionId}` }
+                        data-testid={ `link-to-album-${album.collectionId}` }
+                      >
+                        <div>
+                          {/* Chama o componente AlbumCard e passa as props */}
+                          <img src={ album.artworkUrl100 } alt={ album.collectionName } />
+                          <h4 id="albumName">{ album.collectionName }</h4>
+                          <p id="artistName">{ album.artistName }</p>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
+                </AlbumCardS>
               </section>)}
-        </form>
-      </div>
+        </span>
+      </DivGlobal>
     );
   }
 }
+
+Search.propTypes = {
+  history: PropTypes.shape.isRequired,
+};
 
 export default Search;

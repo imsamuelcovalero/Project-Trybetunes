@@ -1,7 +1,8 @@
 // Faz os imports que serão usados
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import PropTypes from 'prop-types';
+import Header from '../components/Header/Header';
 import { getUser } from '../services/userAPI';
 import Loading from '../components/Loading';
 
@@ -30,12 +31,13 @@ class Profile extends Component {
 
   render() {
     const { loading, user } = this.state;
+    const { history } = this.props;
     return (
       <div data-testid="page-profile">
         {
           loading
             ? <Loading />
-            : <Header />
+            : <Header history={ history } />
         }
         {
           loading
@@ -58,5 +60,9 @@ class Profile extends Component {
     );
   }
 }
+
+Profile.propTypes = {
+  history: PropTypes.shape.isRequired,
+};
 
 export default Profile;
