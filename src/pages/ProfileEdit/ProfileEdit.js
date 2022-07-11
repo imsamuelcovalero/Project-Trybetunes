@@ -1,9 +1,9 @@
 // Faz os imports que serão usados
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Header from '../components/Header/Header';
-import Loading from '../components/Loading';
-import { getUser, updateUser } from '../services/userAPI';
+import Header from '../../components/Header/Header';
+import Loading from '../../components/Loading';
+import { getUser, updateUser } from '../../services/userAPI';
 
 // Cria uma classe que cuida da página do Profile Edit
 class ProfileEdit extends Component {

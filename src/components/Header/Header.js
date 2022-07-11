@@ -1,6 +1,6 @@
 // Importa React, Link do Router, getUser da userAPI e o componente Loading
 import React, { Component } from 'react';
-import { CgProfile } from 'react-icons/cg';
+import { FaUserCircle } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { getUser } from '../../services/userAPI';
 import Loading from '../Loading';
@@ -74,7 +74,7 @@ class Header extends Component {
           <img src={ logo } alt="Logo" />
           <div id="userIconName">
             <span id="icon">
-              <CgProfile />
+              <FaUserCircle />
             </span>
             <span id="userName">
               <h4 data-testid="header-user-name">

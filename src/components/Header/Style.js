@@ -49,7 +49,7 @@ export const HeaderS = styled.header`
   }
   #icon {
     font-size: 38px;
-    color: #036B52;
+    color: #2FC18C;
   }
   @media (max-width: 700px) {
     max-width: 700px;

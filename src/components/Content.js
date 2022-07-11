@@ -8,8 +8,8 @@ import Login from '../pages/Login';
 import Search from '../pages/Search/Search';
 import Album from '../pages/Album/Album';
 import Favorites from '../pages/Favorites/Favorites';
-import Profile from '../pages/Profile';
-import ProfileEdit from '../pages/ProfileEdit';
+import Profile from '../pages/Profile/Profile';
+import ProfileEdit from '../pages/ProfileEdit/ProfileEdit';
 import NotFound from '../pages/NotFound';
 
 class Content extends Component {
