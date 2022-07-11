@@ -11,11 +11,15 @@ export const DivGlobal = styled.div`
 `;
 
 export const DivS = styled.div`
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   margin-top: 104px;
   width: 288px;
+
+  #image {
+    width: 100px;
+    height: 100px;
+  }
 
   #imageEditBtn {
     display: flex;
@@ -28,14 +32,14 @@ export const DivS = styled.div`
     flex-direction: column;
     margin-top: 30px;
     gap: 25px;
-    font-size: 16px;
+    font-size: 18px;
     #description {
       margin-bottom: 10px;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
     }
     #title {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
     }
   }

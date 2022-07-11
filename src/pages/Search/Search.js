@@ -109,7 +109,7 @@ class Search extends Component {
         <span id="searchResults">
           { albuns.length === 0
             // Caso albuns não receba nenhum valor mostra uma frase informado
-            ? (<p>Nenhum álbum foi encontrado</p>)
+            ? (<p id="albumNotFound">Nenhum álbum foi encontrado</p>)
             : (
               // Caso receba exbibe na tela as informações referentes ao álbum
               <section>

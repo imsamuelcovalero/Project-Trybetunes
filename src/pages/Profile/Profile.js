@@ -54,7 +54,14 @@ class Profile extends Component {
                 <div id="imageEditBtn">
                   {
                     user.image
-                      ? <img data-testid="profile-image" src={ user.image } alt="user" />
+                      ? (
+                        <img
+                          data-testid="profile-image"
+                          src={ user.image }
+                          alt="user"
+                          id="image"
+                        />
+                      )
                       : <FaUserCircle size={ 80 } />
                   }
                   <ButtonEditProfile

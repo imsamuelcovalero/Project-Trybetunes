@@ -11,33 +11,98 @@ export const DivGlobal = styled.div`
 `;
 
 export const DivS = styled.div`
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   margin-top: 104px;
   width: 288px;
+  gap: 25px;
+  font-size: 18px;
 
-  #imageEditBtn {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  #image {
+    width: 100px;
+    height: 100px;
   }
 
-  #itensPerfil {
+  #title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  #description {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
-    gap: 25px;
+    margin-bottom: 4px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  #subtitle {
+    font-style: italic;
+    margin-bottom: 8px;
     font-size: 16px;
-    #description {
-      margin-bottom: 10px;
-      font-size: 18px;
-      font-weight: 700;
+  }
+
+  input {
+    width: 288px;
+    height: 37px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background: transparent;
+    border-bottom: 1px solid #3D495C;
+    font-size: 18px;
+    padding-left: 8px;
+    &:focus {
+      outline: none;
+      ::placeholder {
+        color: transparent;
+      }
     }
-    #title {
-      font-size: 18px;
-      font-weight: 700;
+  }
+
+  #editDescriptionInput {
+    width: 288px;
+    height: 100px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #3D495C;
+    background: transparent;
+    padding-top: 8px;
+    font-family: 'Verdana';
+    font-size: 18px;
+    &:focus {
+      outline: none;
+      ::placeholder {
+        color: transparent;
+      }
     }
+  }
+
+  #editPicture {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    #editPictureInput {
+      width: 192px;
+      height: 37px;
+      font-size: 16px;
+      border-radius: 2px;
+      border: 1px solid #DADADA;
+    }
+  }
+
+  #saveButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    background: #003BE5;
+    color: #FFFFFF;
+    font-size: 16px;
+    border-radius: 2px;
+    margin-top: 11px;
+    width: 115px;
+    height: 40px;
   }
 
   @media (max-width: 700px) {

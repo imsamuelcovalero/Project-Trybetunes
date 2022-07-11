@@ -1,9 +1,11 @@
 // Faz os imports que serão usados
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FaUserCircle } from 'react-icons/fa';
 import Header from '../../components/Header/Header';
 import Loading from '../../components/Loading';
 import { getUser, updateUser } from '../../services/userAPI';
+import { DivGlobal, DivS } from './Style';
 
 // Cria uma classe que cuida da página do Profile Edit
 class ProfileEdit extends Component {
@@ -102,7 +104,7 @@ class ProfileEdit extends Component {
     const { loading, name, email, image, description, isSaveButtonDisabled } = this.state;
     const { history } = this.props;
     return (
-      <div data-testid="page-profile-edit">
+      <DivGlobal data-testid="page-profile-edit">
         {
           loading
             ? <Loading />
@@ -114,56 +116,88 @@ class ProfileEdit extends Component {
             : (
               // Exibe o form para alteração dos dados
               <form>
-                <input
-                  data-testid="edit-input-name"
-                  type="text"
-                  name="name"
-                  placeholder="Nome do Usuário"
-                  value={ name }
-                  onChange={ this.onInputChange }
-                  required
-                />
-                <input
-                  data-testid="edit-input-email"
-                  type="email"
-                  placeholder="usuario@usuario.com.br"
-                  name="email"
-                  value={ email }
-                  onChange={ this.onInputChange }
-                  required
-                />
-                <input
-                  data-testid="edit-input-description"
-                  type="text"
-                  placeholder="Sobre mim"
-                  name="description"
-                  value={ description }
-                  onChange={ this.onInputChange }
-                  required
-                />
-                <input
-                  data-testid="edit-input-image"
-                  type="text"
-                  placeholder="Insira um link"
-                  name="image"
-                  value={ image }
-                  onChange={ this.onInputChange }
-                  required
-                />
-                <button
-                  type="submit"
-                  data-testid="edit-button-save"
-                  // Habilitado ou desabilitado conforme as condições de verificação
-                  disabled={ isSaveButtonDisabled }
-                  onClick={ this.onClickEnter }
-                >
-                  Salvar
-                </button>
+                <DivS>
+                  <div id="editPicture">
+                    {
+                      image
+                        ? (
+                          <img
+                            id="image"
+                            data-testid="profile-image"
+                            src={ image }
+                            alt="user"
+                          />
+                        )
+                        : <FaUserCircle size={ 80 } />
+                    }
+                    <input
+                      id="editPictureInput"
+                      data-testid="edit-input-image"
+                      type="text"
+                      placeholder="Insira um link"
+                      name="image"
+                      value={ image }
+                      onChange={ this.onInputChange }
+                      required
+                    />
+                  </div>
+                  <div>
+                    <span id="title">Nome</span>
+                    <p id="subtitle">Fique à vontade para usar seu nome social</p>
+                    <input
+                      id="editNameInput"
+                      data-testid="edit-input-name"
+                      type="text"
+                      name="name"
+                      placeholder="Nome do Usuário"
+                      value={ name }
+                      onChange={ this.onInputChange }
+                      required
+                    />
+                  </div>
+                  <div>
+                    <span id="title">Email</span>
+                    <p id="subtitle">Escolha um e-mail que consulte diariamente</p>
+                    <input
+                      id="editEmailInput"
+                      data-testid="edit-input-email"
+                      type="email"
+                      placeholder="usuario@usuario.com.br"
+                      name="email"
+                      value={ email }
+                      onChange={ this.onInputChange }
+                      required
+                    />
+                  </div>
+                  <div>
+                    <span id="description">Descrição</span>
+                    <textarea
+                      rows="6"
+                      id="editDescriptionInput"
+                      data-testid="edit-input-description"
+                      type="textarea"
+                      placeholder="Sobre mim"
+                      name="description"
+                      value={ description }
+                      onChange={ this.onInputChange }
+                      required
+                    />
+                  </div>
+                  <button
+                    id="saveButton"
+                    type="submit"
+                    data-testid="edit-button-save"
+                    // Habilitado ou desabilitado conforme as condições de verificação
+                    disabled={ isSaveButtonDisabled }
+                    onClick={ this.onClickEnter }
+                  >
+                    Salvar
+                  </button>
+                </DivS>
               </form>
             )
         }
-
-      </div>
+      </DivGlobal>
     );
   }
 }
