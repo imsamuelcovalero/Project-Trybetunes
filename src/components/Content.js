@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Importa o componentes de navegação das pages
-import Login from '../pages/Login';
+import Login from '../pages/Login/Login';
 import Search from '../pages/Search/Search';
 import Album from '../pages/Album/Album';
 import Favorites from '../pages/Favorites/Favorites';

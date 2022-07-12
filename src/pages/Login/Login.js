@@ -1,12 +1,17 @@
 // Importa além do usual a função createUser da userAPI e o componente Loading
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { createUser } from '../services/userAPI';
-import Loading from '../components/Loading';
-import logo from '../images/logo.svg';
-import styles from './Login.module.css';
+import { createUser } from '../../services/userAPI';
+import Loading from '../../components/Loading';
+import logo from '../../images/logo.svg';
+import { DivGlobal, DivS } from './Style';
 
 class Login extends Component {
+  componentDidMount() {
+    const { checkLoading } = this.props;
+    checkLoading(false);
+  }
+
   // Cria uma função para trabalhar a entrada de clique no botão entrar
   onClickEnter = async () => {
     // Desestrutura as props
@@ -23,13 +28,17 @@ class Login extends Component {
     // Desestrutura as props
     const { userName, isSaveButtonDisabled, loading, onInputChange } = this.props;
     return (
-      <section data-testid="page-login">
+      <DivGlobal data-testid="page-login">
         {/* renderização condicional do loading, através da prop */}
         {
           loading
-            ? <Loading />
+            ? (
+              <div id="loading">
+                <Loading />
+              </div>
+            )
             : (
-              <div className={ styles.container }>
+              <DivS>
                 <img src={ logo } alt="logo da TrybeTunes" />
                 <form>
                   {/* No form cria um input para receber o userName */}
@@ -52,10 +61,10 @@ class Login extends Component {
                     Entrar
                   </button>
                 </form>
-              </div>
+              </DivS>
             )
         }
-      </section>
+      </DivGlobal>
     );
   }
 }

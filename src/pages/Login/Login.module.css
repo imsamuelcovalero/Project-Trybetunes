@@ -1,7 +1,5 @@
 .container {
   align-items: center;
-  /* align-self: center;
-  align-content: center; */
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -41,6 +39,17 @@
   width: 100%;
 }
 
+.loading {
+  margin-top: 153px;
+  font-family: 'Epilogue';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 65px;
+  letter-spacing: 0.02em;
+  color: #023031;
+}
+
 @media (max-width: 700px) {
 
   .container form {
@@ -56,5 +65,11 @@
 
   .container {
     margin-top: 50px;
+  }
+
+  .loading {
+    margin-top: 93px;
+    font-size: 30px;
+    line-height: 35px;
   }
 }
