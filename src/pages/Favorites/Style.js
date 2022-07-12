@@ -8,6 +8,49 @@ export const DivGlobal = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: #FAFAFA;
+  #headerLoading {
+    margin-top: 153px;
+    font-family: 'Epilogue';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 40px;
+    line-height: 65px;
+    letter-spacing: 0.02em;
+    color: #023031;
+  }
+  #bodyLoading {
+    margin-top: 329px;
+    font-family: 'Epilogue';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 60px;
+    line-height: 65px;
+    letter-spacing: 0.02em;
+    color: #023031;
+  }
+
+  @media (max-width: 700px) {
+    #headerLoading {
+      margin-top: 93px;
+      font-family: 'Epilogue';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 30px;
+      line-height: 35px;
+      letter-spacing: 0.02em;
+      color: #023031;
+    }
+    #bodyLoading {
+      margin-top: 374px;
+      font-family: 'Epilogue';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 42px;
+      line-height: 35px;
+      letter-spacing: 0.02em;
+      color: #023031;
+    }
+  }
 `;
 
 export const SectionS = styled.section`
@@ -39,9 +82,9 @@ export const SectionS = styled.section`
 
   @media (max-width: 700px) {
     #pageTitle {
-    margin-top: 53px;
-    margin-bottom: 24px;
-  }
+      margin-top: 53px;
+      margin-bottom: 24px;
+    }
     #musicCard {
       margin-top: 18px;
       margin-left: 20px;

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { getUser } from '../../services/userAPI';
-import Loading from '../Loading';
+// import Loading from '../Loading';
 import { HeaderS, NavLinks, ButtonSearch, ButtonFavorites, ButtonProfile } from './Style';
 import logo from '../../images/logoBranco.svg';
 
@@ -14,7 +14,6 @@ class Header extends Component {
     super();
     this.state = {
       userName: '',
-      loading: false,
       navSelected: '',
     };
   }
@@ -37,13 +36,9 @@ class Header extends Component {
         navSelected: 'profile',
       });
     }
-    this.setState({
-      loading: true,
-    });
     const resposta = await getUser();
     this.setState({
       userName: resposta.name,
-      loading: false,
     });
   }
 
@@ -63,13 +58,9 @@ class Header extends Component {
   }
 
   render() {
-    const { userName, loading, navSelected } = this.state;
+    const { userName, navSelected } = this.state;
     return (
       <HeaderS data-testid="header-component">
-        {
-          loading
-            && <Loading />
-        }
         <span id="topHeader">
           <img src={ logo } alt="Logo" />
           <div id="userIconName">
@@ -113,7 +104,6 @@ class Header extends Component {
             Profile
           </ButtonProfile>
         </NavLinks>
-        {/* Exibe o username do estado */}
       </HeaderS>
     );
   }

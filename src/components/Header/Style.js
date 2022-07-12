@@ -10,6 +10,16 @@ export const HeaderS = styled.header`
   align-self: flex-start;
   align-content: space-between;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  #loading {
+    margin-top: 153px;
+    font-family: 'Epilogue';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 40px;
+    line-height: 65px;
+    letter-spacing: 0.02em;
+    color: #023031;
+  }
   span {
     display: flex;
     align-items: center;

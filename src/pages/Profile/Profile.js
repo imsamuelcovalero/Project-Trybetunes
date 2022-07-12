@@ -12,7 +12,8 @@ class Profile extends Component {
   constructor() {
     super();
     this.state = {
-      loading: false,
+      headerLoading: false,
+      bodyLoading: false,
       user: [],
     };
   }
@@ -20,12 +21,14 @@ class Profile extends Component {
   // No DidMount chama a função que faz a requisição do usuário na API
   componentDidMount = async () => {
     this.setState({
-      loading: true,
+      headerLoading: true,
+      bodyLoading: true,
     });
     // Seta o usu[ario no estado
     const userX = await getUser();
     this.setState({
-      loading: false,
+      headerLoading: false,
+      bodyLoading: false,
       user: userX,
     });
   }
@@ -36,18 +39,26 @@ class Profile extends Component {
   }
 
   render() {
-    const { loading, user } = this.state;
+    const { bodyLoading, headerLoading, user } = this.state;
     const { history } = this.props;
     return (
       <DivGlobal data-testid="page-profile">
         {
-          loading
-            ? <Loading />
+          headerLoading
+            ? (
+              <div id="headerLoading">
+                <Loading />
+              </div>
+            )
             : <Header history={ history } />
         }
         {
-          loading
-            ? <Loading />
+          bodyLoading
+            ? (
+              <div id="bodyLoading">
+                <Loading />
+              </div>
+            )
             : (
               // Exibe as informações do usuário na tela
               <DivS className="profile">

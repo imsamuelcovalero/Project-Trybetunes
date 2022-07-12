@@ -12,7 +12,8 @@ class ProfileEdit extends Component {
   constructor() {
     super();
     this.state = {
-      loading: false,
+      headerLoading: false,
+      bodyLoading: false,
       name: '',
       email: '',
       image: '',
@@ -24,12 +25,14 @@ class ProfileEdit extends Component {
   // No DidMount faz request do user na API e seta o estado
   componentDidMount = async () => {
     this.setState({
-      loading: true,
+      headerLoading: true,
+      bodyLoading: true,
     });
     const userX = await getUser();
     console.log('user', userX);
     this.setState({
-      loading: false,
+      headerLoading: false,
+      bodyLoading: false,
       // user: userX,
       name: userX.name,
       email: userX.email,
@@ -82,7 +85,7 @@ class ProfileEdit extends Component {
     const { history } = this.props;
     const { name, email, image, description } = this.state;
     this.setState({
-      loading: true,
+      bodyLoading: true,
     });
     // Insere na função updateUser da API os dados do usuário atualizados
     await updateUser(
@@ -94,25 +97,34 @@ class ProfileEdit extends Component {
       },
     );
     this.setState({
-      loading: false,
+      bodyLoading: false,
     });
     // Redireciona para a página do Profile
     history.push('/profile');
   }
 
   render() {
-    const { loading, name, email, image, description, isSaveButtonDisabled } = this.state;
+    const { headerLoading, bodyLoading, name, email, image,
+      description, isSaveButtonDisabled } = this.state;
     const { history } = this.props;
     return (
       <DivGlobal data-testid="page-profile-edit">
         {
-          loading
-            ? <Loading />
+          headerLoading
+            ? (
+              <div id="headerLoading">
+                <Loading />
+              </div>
+            )
             : <Header history={ history } />
         }
         {
-          loading
-            ? <Loading />
+          bodyLoading
+            ? (
+              <div id="bodyLoading">
+                <Loading />
+              </div>
+            )
             : (
               // Exibe o form para alteração dos dados
               <form>

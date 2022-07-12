@@ -12,26 +12,34 @@ class Favorites extends Component {
   constructor() {
     super();
     this.state = {
-      loading: false,
+      headerLoading: false,
+      bodyLoading: false,
       musicasFavoritas: [],
     };
   }
 
   // No DidMount chama a função que faz a requisição das favoritas na API
-  componentDidMount() {
-    this.getFavorites();
+  componentDidMount = async () => {
+    this.setState({
+      headerLoading: true,
+      bodyLoading: true,
+    });
+    const musicasFavs = await getFavoriteSongs();
+    this.setState({
+      headerLoading: false,
+      bodyLoading: false,
+      musicasFavoritas: musicasFavs,
+    });
   }
 
   // Faz a requisição das músicas favoritas e seta no state
   getFavorites = async () => {
     this.setState({
-      loading: true,
+      bodyLoading: true,
     });
     const musicasFavs = await getFavoriteSongs();
     this.setState({
-      loading: false,
-    });
-    this.setState({
+      bodyLoading: false,
       musicasFavoritas: musicasFavs,
     });
   }
@@ -55,12 +63,12 @@ class Favorites extends Component {
     if (resultado.length !== 0) {
       console.log('condição favorites 1');
       this.setState({
-        loading: true,
+        bodyLoading: true,
       });
       // Então remove a música dos favoritos
       await removeSong(musica);
       this.setState({
-        loading: false,
+        bodyLoading: false,
       });
       // Após remover chama a função de refresh
       this.onRefresh(true);
@@ -68,28 +76,36 @@ class Favorites extends Component {
     } else {
       console.log('condição favorites 2');
       this.setState({
-        loading: true,
+        bodyLoading: true,
       });
       await addSong(musica);
       this.setState({
-        loading: false,
+        bodyLoading: false,
       });
     }
   };
 
   render() {
-    const { loading, musicasFavoritas } = this.state;
+    const { musicasFavoritas, bodyLoading, headerLoading } = this.state;
     const { history } = this.props;
     return (
       <DivGlobal data-testid="page-favorites">
         {
-          loading
-            ? <Loading />
+          headerLoading
+            ? (
+              <div id="headerLoading">
+                <Loading />
+              </div>
+            )
             : <Header history={ history } />
         }
         {
-          loading
-            ? <Loading />
+          bodyLoading
+            ? (
+              <div id="bodyLoading">
+                <Loading />
+              </div>
+            )
             : (
               <SectionS>
                 {/* Faz um map com as músicas dos favoritos e envia para o MusicCard as informações necessárias como Props */}

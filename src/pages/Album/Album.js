@@ -17,28 +17,36 @@ class Album extends Component {
       albumName: '',
       artistName: '',
       artWork: '',
-      loading: false,
+      headerLoading: false,
+      bodyLoading: false,
       musics: [],
       musicasFavoritas: [],
     };
   }
 
   // Dentro do DidMount chama getMusicas e getFavorites
-  async componentDidMount() {
+  componentDidMount = async () => {
     this.getMusicas();
-    this.getFavorites();
+    this.setState({
+      headerLoading: true,
+      bodyLoading: true,
+    });
+    const musicasFavs = await getFavoriteSongs();
+    this.setState({
+      headerLoading: false,
+      bodyLoading: false,
+      musicasFavoritas: musicasFavs,
+    });
   }
 
   // Cria uma função que consulta a API buscando pelas músicas salvas nos favoritos
   getFavorites = async () => {
     this.setState({
-      loading: true,
+      bodyLoading: true,
     });
     const musicasFavs = await getFavoriteSongs();
     this.setState({
-      loading: false,
-    });
-    this.setState({
+      bodyLoading: false,
       musicasFavoritas: musicasFavs,
     });
   }
@@ -48,7 +56,7 @@ class Album extends Component {
     // IMPORTANTE: Desestrutura as prop recebida pelo Router até chegar no id, presente no componente match
     const { match: { params: { id } } } = this.props;
     this.setState({
-      loading: true,
+      bodyLoading: true,
     });
     const resposta = await getMusics(id);
     // Após recebeu a requisição da API faz um filtro removendo o primeiro elemento pois ele não é uma música, apenas outras informações
@@ -57,7 +65,8 @@ class Album extends Component {
     // pra não ter problema nos testes
     this.setState({
       musics: respostaFiltrada,
-      loading: false,
+      headerLoading: false,
+      bodyLoading: false,
       artistName: resposta[0].artistName,
       albumName: resposta[0].collectionName,
       artWork: resposta[0].artworkUrl100,
@@ -81,22 +90,22 @@ class Album extends Component {
     // Caso o resultado tenha algum elemento, a música faz parte das favoritas
     if (resultado.length !== 0) {
       this.setState({
-        loading: true,
+        bodyLoading: true,
       });
       // Então remove a música dos favoritos
       await removeSong(music);
       this.setState({
-        loading: false,
+        bodyLoading: false,
       });
       this.onRefresh(true);
       // Caso contrário a música do parâmetro não fazia parte dos favoritos e é então adicionada
     } else {
       this.setState({
-        loading: true,
+        bodyLoading: true,
       });
       await addSong(music);
       this.setState({
-        loading: false,
+        bodyLoading: false,
       });
       // Por fim chama a função de refresh
       this.onRefresh(true);
@@ -104,19 +113,27 @@ class Album extends Component {
   };
 
   render() {
-    const { musics, artistName, loading, albumName, musicasFavoritas,
+    const { musics, artistName, headerLoading, bodyLoading, albumName, musicasFavoritas,
       artWork } = this.state;
     const { history } = this.props;
     return (
       <DivGlobal data-testid="page-album">
         {
-          loading
-            ? <Loading />
+          headerLoading
+            ? (
+              <div id="headerLoading">
+                <Loading />
+              </div>
+            )
             : <Header history={ history } />
         }
         {
-          loading
-            ? <Loading />
+          bodyLoading
+            ? (
+              <div id="bodyLoading">
+                <Loading />
+              </div>
+            )
             : (
               <SectionS>
                 <div id="album">

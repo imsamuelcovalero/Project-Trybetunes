@@ -18,9 +18,24 @@ class Search extends Component {
       artistName: '',
       artistNameDisplay: '',
       isSaveButtonDisabled: true,
-      loading: false,
+      headerLoading: false,
+      bodyLoading: false,
       albuns: [],
     };
+  }
+
+  componentDidMount = async () => {
+    const { artistName } = this.state;
+    this.setState({
+      headerLoading: true,
+      bodyLoading: true,
+    });
+    //  Consulta a API com o valor de entrada recebido
+    await searchAlbumsAPI(artistName);
+    this.setState({
+      headerLoading: false,
+      bodyLoading: false,
+    });
   }
 
   // Cria uma função para lidar com os valores de entrada
@@ -55,13 +70,13 @@ class Search extends Component {
   onClickSearch = async ({ target }) => {
     const { artistName } = this.state;
     this.setState({
-      loading: true,
+      bodyLoading: true,
     });
     //  Consulta a API com o valor de entrada recebido
     const resposta = await searchAlbumsAPI(artistName);
     this.setState({
       albuns: resposta,
-      loading: false,
+      bodyLoading: false,
       artistNameDisplay: artistName,
       artistName: '',
     });
@@ -70,73 +85,94 @@ class Search extends Component {
   }
 
   render() {
-    const { artistName, isSaveButtonDisabled, loading, albuns,
+    const { artistName, isSaveButtonDisabled, bodyLoading, headerLoading, albuns,
       artistNameDisplay } = this.state;
     const { history } = this.props;
     return (
       <DivGlobal data-testid="page-search">
         {/* Cria o form de recebimento do nome do artista com um botão de Pesquisar */}
-        <Header history={ history } />
-        <form>
-          <span id="artistSearch">
-            <input
-              id="input-search"
-              data-testid="search-artist-input"
-              type="text"
-              placeholder="Nome do Artista"
-              name="artistName"
-              value={ artistName }
-              onChange={ this.onInputChange }
-              required
-            />
-            <span id="searchIcon">
-              <IoIosSearch />
-            </span>
-          </span>
-          <button
-            type="button"
-            data-testid="search-artist-button"
-            disabled={ isSaveButtonDisabled }
-            onClick={ this.onClickSearch }
-          >
-            Pesquisar
-          </button>
-        </form>
         {
-          loading
-              && <Loading />
-        }
-        <span id="searchResults">
-          { albuns.length === 0
-            // Caso albuns não receba nenhum valor mostra uma frase informado
-            ? (<p id="albumNotFound">Nenhum álbum foi encontrado</p>)
+          headerLoading
+            ? (
+              <div id="headerLoading">
+                <Loading />
+              </div>
+            )
             : (
-              // Caso receba exbibe na tela as informações referentes ao álbum
-              <section>
-                <h3 id="resultado">
-                  {`Resultado de álbuns de ${artistNameDisplay}:`}
-                </h3>
-                {/* Faz um map enviando os elementos do album para o AlbumCard
+              <div id="header">
+                <Header history={ history } />
+                <form>
+                  <span id="artistSearch">
+                    <input
+                      id="input-search"
+                      data-testid="search-artist-input"
+                      type="text"
+                      placeholder="Nome do Artista"
+                      name="artistName"
+                      value={ artistName }
+                      onChange={ this.onInputChange }
+                      required
+                    />
+                    <span id="searchIcon">
+                      <IoIosSearch />
+                    </span>
+                  </span>
+                  <button
+                    type="button"
+                    data-testid="search-artist-button"
+                    disabled={ isSaveButtonDisabled }
+                    onClick={ this.onClickSearch }
+                  >
+                    Pesquisar
+                  </button>
+                </form>
+              </div>
+            )
+        }
+        {
+          bodyLoading
+            ? (
+              <div id="bodyLoading">
+                <Loading />
+              </div>
+            )
+            : (
+              <span id="searchResults">
+                { albuns.length === 0
+                // Caso albuns não receba nenhum valor mostra uma frase informado
+                  ? (<p id="albumNotFound">Nenhum álbum foi encontrado</p>)
+                  : (
+                // Caso receba exbibe na tela as informações referentes ao álbum
+                    <section>
+                      <h3 id="resultado">
+                        {`Resultado de álbuns de ${artistNameDisplay}:`}
+                      </h3>
+                      {/* Faz um map enviando os elementos do album para o AlbumCard
                             E cria um link envolvendo os elementos exibidos na tela */}
-                <AlbumCardS>
-                  {albuns.map((album, index) => (
-                    <div id="albumCard" key={ index }>
-                      <Link
-                        to={ `/album/${album.collectionId}` }
-                        data-testid={ `link-to-album-${album.collectionId}` }
-                      >
-                        <div>
-                          {/* Chama o componente AlbumCard e passa as props */}
-                          <img src={ album.artworkUrl100 } alt={ album.collectionName } />
-                          <h4 id="albumName">{ album.collectionName }</h4>
-                          <p id="artistName">{ album.artistName }</p>
-                        </div>
-                      </Link>
-                    </div>
-                  ))}
-                </AlbumCardS>
-              </section>)}
-        </span>
+                      <AlbumCardS>
+                        {albuns.map((album, index) => (
+                          <div id="albumCard" key={ index }>
+                            <Link
+                              to={ `/album/${album.collectionId}` }
+                              data-testid={ `link-to-album-${album.collectionId}` }
+                            >
+                              <div>
+                                {/* Chama o componente AlbumCard e passa as props */}
+                                <img
+                                  src={ album.artworkUrl100 }
+                                  alt={ album.collectionName }
+                                />
+                                <h4 id="albumName">{ album.collectionName }</h4>
+                                <p id="artistName">{ album.artistName }</p>
+                              </div>
+                            </Link>
+                          </div>
+                        ))}
+                      </AlbumCardS>
+                    </section>)}
+              </span>
+            )
+        }
       </DivGlobal>
     );
   }

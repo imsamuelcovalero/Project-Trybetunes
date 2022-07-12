@@ -8,11 +8,77 @@ export const DivGlobal = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: #FAFAFA;
+  #headerLoading {
+    margin-top: 153px;
+    font-family: 'Epilogue';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 40px;
+    line-height: 65px;
+    letter-spacing: 0.02em;
+    color: #023031;
+    @media (max-width: 700px) {
+    #headerLoading {
+      border: 1px solid red;
+      margin-top: 10px;
+      font-family: 'Epilogue';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 30px;
+      line-height: 35px;
+      letter-spacing: 0.02em;
+      color: #023031;
+    }
+  }
+  }
+  #bodyLoading {
+    margin-top: 329px;
+    font-family: 'Epilogue';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 60px;
+    line-height: 65px;
+    letter-spacing: 0.02em;
+    color: #023031;
+    @media (max-width: 700px) {
+    #bodyLoading {
+      border: 1px solid red;
+      margin-top: 269px;
+      font-family: 'Epilogue';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 40px;
+      line-height: 35px;
+      letter-spacing: 0.02em;
+      color: #023031;
+    }
+  }
+  }
+  #albumNotFound {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 207px;
+    width: 930px;
+    height: 117px;
+    font-weight: 300;
+    font-size: 60px;
+    line-height: 65px;
+    letter-spacing: 0.02em;
+    @media (max-width: 700px) {
+      margin-top: 147px;
+      font-size: 42px;
+    }
+  }
+  #header {
+    width: 100%;
+  }
   form {
     margin-top: 70px;
     display: flex;
     flex-direction: row;
     margin-bottom: 30px;
+    justify-content: center;
     #artistSearch {
       background-color: #FFFFFF;
       align-items: center;
@@ -67,10 +133,35 @@ export const DivGlobal = styled.div`
     font-weight: 300;
     font-size: 24px;
     line-height: 25px;
+    justify-content: center;
+    align-items: center;
   }
   #resultado {
     margin-top: 10px;
     margin-bottom: 25px;
+  }
+
+  @media (max-width: 700px) {
+    #headerLoading {
+      margin-top: 93px;
+      font-family: 'Epilogue';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 30px;
+      line-height: 35px;
+      letter-spacing: 0.02em;
+      color: #023031;
+    }
+    #bodyLoading {
+      margin-top: 374px;
+      font-family: 'Epilogue';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 42px;
+      line-height: 35px;
+      letter-spacing: 0.02em;
+      color: #023031;
+    }
   }
 `;
 
