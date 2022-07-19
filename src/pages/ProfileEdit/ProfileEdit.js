@@ -60,14 +60,13 @@ class ProfileEdit extends Component {
 
   // Cria uma função para verificar as condições para o botão Salvar ficar habilitado
   verifyErrors = () => {
-    const { name, email, image, description } = this.state;
+    const { name, email, description } = this.state;
     // Pattern criada para validar o formato da entrada de email
     const pattern = /\S+@\S+.com/;
     // Cria uma constante para receber em uma array o booleano de cada verificação
     const errorCases = [
       name === '',
       email === '',
-      image === '',
       description === '',
       pattern.test(email) === false,
     ];
@@ -154,7 +153,7 @@ class ProfileEdit extends Component {
                     />
                   </div>
                   <div>
-                    <span id="title">Nome</span>
+                    <span id="title">*Nome</span>
                     <p id="subtitle">Fique à vontade para usar seu nome social</p>
                     <input
                       id="editNameInput"
@@ -168,7 +167,7 @@ class ProfileEdit extends Component {
                     />
                   </div>
                   <div>
-                    <span id="title">Email</span>
+                    <span id="title">*Email</span>
                     <p id="subtitle">Escolha um e-mail que consulte diariamente</p>
                     <input
                       id="editEmailInput"
@@ -182,7 +181,7 @@ class ProfileEdit extends Component {
                     />
                   </div>
                   <div>
-                    <span id="description">Descrição</span>
+                    <span id="description">*Descrição</span>
                     <textarea
                       rows="6"
                       id="editDescriptionInput"
@@ -205,6 +204,7 @@ class ProfileEdit extends Component {
                   >
                     Salvar
                   </button>
+                  <p id="rodape">Por favor, preencha todos os campos obrigatórios (*)</p>
                 </DivS>
               </form>
             )

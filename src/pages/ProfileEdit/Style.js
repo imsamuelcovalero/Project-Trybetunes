@@ -56,7 +56,7 @@ export const DivGlobal = styled.div`
 export const DivS = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 104px;
+  margin-top: 84px;
   width: 288px;
   gap: 25px;
   font-size: 18px;
@@ -139,13 +139,28 @@ export const DivS = styled.div`
     justify-content: center;
     align-items: center;
     align-self: center;
-    background: #003BE5;
-    color: #FFFFFF;
+    /* background: #003BE5; */
+    /* color: #FFFFFF; */
     font-size: 16px;
     border-radius: 2px;
     margin-top: 11px;
     width: 115px;
     height: 40px;
+    cursor: pointer;
+    :disabled {
+    background-color: #F0F2F5;
+    color: #003BE5;
+    }
+    :enabled {
+      background-color: #003BE5;
+      color: #FFFFFF;
+      border: 1px solid black;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  #rodape {
+    font-size: 13px;
   }
 
   @media (max-width: 700px) {
