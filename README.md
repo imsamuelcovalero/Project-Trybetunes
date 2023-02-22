@@ -9,8 +9,9 @@ Este projeto é uma aplicação desenvolvida em React.js que acessa uma API do i
 - [Contexto](#contexto)
 - [Tecnologias e Ferramentas Utilizadas](#tecnologias-e-ferramentas-utilizadas)
 - [Instalação e Execução](#instalação-e-execução)
-- [Git, GitHub e Histórico de Commits](#git-github-e-histórico-de-commits)
-- [Lint](#lint)
+- [Notas](#notas)
+ - [Git, GitHub e Histórico de Commits](#git-github-e-histórico-de-commits)
+ - [Lint](#lint)
 
 ## Preview
 
@@ -49,8 +50,9 @@ cd Project-Trybetunes
 npm start
 ```
 
-## Git, GitHub e Histórico de Commits
+## Notas
+### Git, GitHub e Histórico de Commits
 Este projeto utilizou a especificação de commits convencionais, com alguns tipos da convenção Angular. Além disso, foi utilizado o pacote conventional-commit-cli para ajudar a seguir a convenção de commits. É importante utilizar a convenção de commits em projetos para manter o histórico de commits organizado e facilitar a leitura e o entendimento do que foi desenvolvido.
 
-## Lint
+### Lint
 - O projeto foi desenvolvido seguindo os padrões de Clean Code especificados pelo [Lint da Trybe](https://github.com/betrybe/eslint-config-trybe).
