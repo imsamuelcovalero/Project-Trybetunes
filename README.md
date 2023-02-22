@@ -1,6 +1,6 @@
 # Bem-vindo ao projeto Trybetunes
 
-Este projeto é uma aplicação desenvolvida em React.js que acessa uma API do iTunes e cria um ambiente em que o usuário pode pesquisar músicas, ouvir uma prévia e favoritar suas músicas preferidas.
+Trybetunes é uma aplicação desenvolvida em React.js que acessa uma API do iTunes e cria um ambiente em que o usuário pode pesquisar músicas, ouvir uma prévia e favoritar suas músicas preferidas.
 
 ## Sumário
 - [Bem-vindo ao projeto Trybetunes](#bem-vindo-ao-projeto-trybetunes)
