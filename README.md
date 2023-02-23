@@ -15,6 +15,10 @@ Trybetunes é uma aplicação desenvolvida em React.js que acessa uma API do iTu
 
 ## Preview
 
+### Visualização para mobile e mac
+
+[![Preview for mobile and mac](https://img.youtube.com/vi/vjACBaMAbc8/0.jpg)](https://www.youtube.com/watch?v=vjACBaMAbc8)
+
 https://user-images.githubusercontent.com/98184355/220769604-2292f905-9bf2-48bf-a664-02d51c2c51cc.mp4
 
 ## Contexto
