@@ -1,11 +1,19 @@
 # Bem-vindo ao projeto Trybetunes
 
 Trybetunes é uma aplicação desenvolvida em React.js que acessa uma API do iTunes e cria um ambiente em que o usuário pode pesquisar músicas, ouvir uma prévia e favoritar suas músicas preferidas.
-> Acesse o [deeploy da aplicação aqui](https://project-tryetunes.vercel.app/)
+> 
+> - Veja o post sobre a aplicação [no LinkedIn aqui.](https://www.linkedin.com/posts/samuelcovalero_frontend-vqv-soutryber-activity-6983546143657848832-u8ap?utm_source=share&utm_medium=member_desktop)
+> - Acesse o [deploy da aplicação aqui](https://project-tryetunes.vercel.app/)
+<details>
+<summary>Informações para utilizar a aplicação no deploy</summary><br>
+ 
+ - Para logar, o nome de usuário deve ter, no mínimo, `3 caracteres`.
+ 
+</details>
 
 ## Sumário
 - [Bem-vindo ao projeto Trybetunes](#bem-vindo-ao-projeto-trybetunes)
-- [Preview](#preview)
+- [Visualização](#visualização)
 - [Sumário](#sumário)
 - [Contexto](#contexto)
 - [Tecnologias e Ferramentas Utilizadas](#tecnologias-e-ferramentas-utilizadas)
@@ -14,13 +22,19 @@ Trybetunes é uma aplicação desenvolvida em React.js que acessa uma API do iTu
  - [Git, GitHub e Histórico de Commits](#git-github-e-histórico-de-commits)
  - [Lint](#lint)
 
-## Preview
+## Visualização
 
-### Visualização para mobile e mac
+<!-- ### Visualização para mobile e mac
 
 [![Preview for mobile and mac](https://img.youtube.com/vi/vjACBaMAbc8/0.jpg)](https://www.youtube.com/watch?v=vjACBaMAbc8)
 
-https://user-images.githubusercontent.com/98184355/220769604-2292f905-9bf2-48bf-a664-02d51c2c51cc.mp4
+https://user-images.githubusercontent.com/98184355/220769604-2292f905-9bf2-48bf-a664-02d51c2c51cc.mp4 -->
+
+<div align="center">
+ 
+![trybetunes](https://user-images.githubusercontent.com/98184355/230430919-e1e5a913-b8c7-482f-a40e-139796f13d2e.gif)
+
+</div>
 
 ## Contexto
 O __aplicativo Trybetunes__ permite que o usuário:
