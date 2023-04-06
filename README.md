@@ -58,12 +58,12 @@ Este projeto utilizou as seguintes tecnologias e ferramentas:
 ```
 git clone git@github.com:imsamuelcovalero/Project-Trybetunes.git
 ```
-### Install dependencies
+### Instalar dependências
 ```
 cd Project-Trybetunes
 npm install
 ```
-### Run the application
+### Rodar a aplicação
 ```
 cd Project-Trybetunes
 npm start
